@@ -1,0 +1,6 @@
+apps/build2/*
+apps/fb/*
+apps/build/svn.php
+config/ini.db.php
+files/cache/*
+.phptidy-cache

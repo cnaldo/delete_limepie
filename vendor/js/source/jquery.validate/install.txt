@@ -1,0 +1,1 @@
+https://github.com/jzaefferer/jquery-validation

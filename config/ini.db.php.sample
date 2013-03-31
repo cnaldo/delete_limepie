@@ -1,0 +1,45 @@
+;<?php/*
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; real zone ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[real\master]
+dsn = "mysql:host=localhost;dbname=mydbname;charset=utf8"
+username = ""
+password = ""
+charset = "utf8"
+
+[real\master2]
+dsn = "mysql:host=localhost;dbname=mydbname;charset=utf8"
+username = ""
+password = ""
+charset = "utf8"
+
+[real\slave]
+dsn = "mysql:host=localhost;dbname=mydbname;charset=utf8"
+username = ""
+password = ""
+charset = "utf8"
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; dev zone ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[dev\master]
+dsn = "mysql:host=localhost;dbname=mydbname;charset=utf8"
+username = ""
+password = ""
+charset = "utf8"
+
+[dev\master2]
+dsn = "mysql:host=localhost;dbname=mydbname;charset=utf8"
+username = ""
+password = ""
+charset = "utf8"
+
+[dev\slave]
+dsn = "mysql:host=localhost;dbname=mydbname;charset=utf8"
+username = ""
+password = ""
+charset = "utf8"
+
+
+;*/?>
