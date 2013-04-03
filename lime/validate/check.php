@@ -21,6 +21,13 @@ class check
 		'url'			=> "유효한 URL을 입력하십시오.",
 		'equalTo'		=> "{0} 항목과 동일한 값을 입력하십시오.",
 	);
+	public static function required($data) {
+		if(strlen($data) > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}	
 	public static function email($data) {
 		$ex = "([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})";
 		return preg_match("/^".($ex)."$/i",$data);
@@ -132,11 +139,4 @@ class check
 			return true;
 		}
 	} 
-	public static function required($data) {
-		if($data) {
-			return true;
-		} else {
-			return false;
-		}
-	}	
 }
