@@ -31,11 +31,11 @@ class crypt
 	}
 	public static function pack($plaintext, $key = false) {
 		$driver = self::getDriver();
-		return $driver::pack($plaintext, $key);
+		return $driver::pack($plaintext, $key ? $key : $driver::$key);
 	}
 	public static function unpack($ciphertext, $key = false) {
 		$driver = self::getDriver();
-		return $driver::unpack($ciphertext, $key);
+		return $driver::unpack($ciphertext, $key ? $key : $driver::$key);
 	}
 }
 

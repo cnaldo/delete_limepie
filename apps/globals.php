@@ -1,5 +1,6 @@
 <?php
 
+
 class apps_globals extends \lime\controller 
 {
 	public $ver = '100';
@@ -7,59 +8,34 @@ class apps_globals extends \lime\controller
 		parent::__construct();
 		\lime\lang('main');	
 	}
-	protected final function display($ret = false) {
+	protected final function display($print = false) {
 		$tpl = new \lime\tpl;
 		$tpl->tpl_path		= APPS_FOLDER;
 		$tpl->skin			= $this->seg('module').'/view/';
 		$tpl->prefilter		= 'adjustPath & css,js,gif,jpg,jpeg,png,swf|fixHtml';
 		$tpl->environment	= ENVIRONMENT;
 
-		if(isset(\lime\bank()->template_define['layout']) == false && isset($this->layout) && $this->layout) {
+		if(isset(\lime\space::data()->template_define['layout']) == false && isset($this->layout) && $this->layout) {
 			$this->layout($tpl->tpl_path.'layout/'.$this->layout);
 		}
 		$this->set('ver', $this->ver);
-		$tpl->define(\lime\bank()->template_define);
-		$tpl->assign(\lime\bank()->template);
+		$tpl->define(\lime\space::name('template_define')->getAttributes());
+		$tpl->assign(\lime\space::name('template')->getAttributes());
 		
-		if(isset(\lime\bank()->template_define['layout']) == false) {
-			return $tpl->display('contents', $ret);
+		if(isset(\lime\space::data()->template_define['layout']) == false) {
+			return $tpl->display('contents', $print);
 		} else {
-			return $tpl->display('layout', $ret);			
+			return $tpl->display('layout', $print);			
 		}
 	}
 	protected final function set($arg = array(), $val = null) {
-		$a = \lime\bank()->template;
-		if (is_array($arg)) {
-			\lime\bank()->template = array_mix ($a , $arg);
-		} else {
-			$p = @func_get_args();
-			if(count($p)>1) {
-				\lime\bank()->template = array_mix ($a, array($arg => $val));
-			}
-		}
+		return \lime\space::name('template')->setAttribute($arg, $val);
 	}
-	protected final function get($attr, $key = null) {
-		if(isset(\lime\bank()->template[$attr])) {
-			if($key) {
-				if(isset(\lime\bank()->template[$attr][$key])) {
-					return \lime\bank()->template[$attr][$key];
-				}
-			} else {
-				return \lime\bank()->template[$attr];
-			}
-		}
-		return null;
+	protected final function get($attr = null, $key = null) {
+		return \lime\space::name('template')->getAttribute($attr, $key);
 	}
 	protected final function define($arg = array(), $val = null) {
-		$a = \lime\bank()->template_define;
-		if (is_array($arg)) {
-			\lime\bank()->template_define = array_mix ($a , $arg);
-		} else {
-			$p = @func_get_args();
-			if(count($p)>1) {
-				\lime\bank()->template_define = array_mix ($a, array($arg => $val));
-			}
-		}
+		return \lime\space::name('template_define')->setAttribute($arg, $val);
 	}
 	private function _define($name, $arg = array(), $val = null) {
 		if(is_array($arg) == false) {

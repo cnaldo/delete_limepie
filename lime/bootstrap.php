@@ -92,6 +92,10 @@ function getProtocalHost() {
 function getUrl() {
 	return getProtocal().$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 }
+
+define('HOST',		getProtocalHost());
+define('URI',		getUrl());
+
 function _t($msgid, $arr = null) {
 	return \lime\_($msgid, $arr);
 }
@@ -99,14 +103,10 @@ function __t($module, $msgid, $arr = null) {
 	return \lime\__($module, $msgid, $arr);
 }
 
-define('HOST',		getProtocalHost());
-define('URI',		getUrl());
-
-
 /*필수파일 인클루드*/
 
 require_once("lime/function.php");
-require_once("lime/bank.php");
+require_once("lime/space.php");
 require_once("lime/crypt.php");
 require_once("lime/cookie.php");
 require_once("lime/language.php");

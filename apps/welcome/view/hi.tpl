@@ -1,1 +1,1 @@
-hello world
+{=msg}

@@ -101,9 +101,9 @@ function array_mix( array $array1 = array(), array $array2 = array()) {
 	$merged = $array1;
 	foreach ($array2 as $key => &$value) {
 		if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
-			$merged [$key] = array_mix($merged [$key], $value );
+			$merged[$key] = array_mix($merged [$key], $value );
 		} else {
-			$merged [$key] = $value;
+			$merged[$key] = $value;
 		}
 	}
 	return $merged;

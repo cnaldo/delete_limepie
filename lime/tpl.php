@@ -54,11 +54,11 @@ class tpl
 		}
 		echo "<br />".$msg."<br />";
 	}
-	public function display($fid, $ret = false) {
-		if($ret) {
-			return $this->fetch($fid);
-		} else {
+	public function display($fid, $print = false) {
+		if($print) {
 			$this->render($fid);
+		} else {
+			return $this->fetch($fid);
 		}
 	}
 	public function fetch($fid) {
@@ -118,3 +118,4 @@ class tpl
 		}
 	}
 }
+
