@@ -19,11 +19,11 @@ class framework
 		$this->route = $route;
 	}
 	private function action($args = null) {
-		$module			= str_replace('/',DS,$this->route->seg['module']);
-		$controller		= str_replace('/',DS,$this->route->seg['controller']);
-		$action			= str_replace('/',DS,$this->route->seg['action']);
-		$basedir		= str_replace('/',DS,$this->route->seg['basedir']);
-		$prefix			= str_replace('/',DS,$this->route->seg['prefix']);
+		$module			= str_replace('/',DS,$this->route->query['module']);
+		$controller		= str_replace('/',DS,$this->route->query['controller']);
+		$action			= str_replace('/',DS,$this->route->query['action']);
+		$basedir		= str_replace('/',DS,$this->route->query['basedir']);
+		$prefix			= str_replace('/',DS,$this->route->query['prefix']);
 	 	$className		= ($module ? $module.'_':'').str_replace(DS,'_',$controller);
 		$errorClassName	= $this->route->defaultError;
 		$moduleBasedir	= HTDOCS_FOLDER.($basedir ? $basedir.DS : '')
@@ -58,7 +58,7 @@ class framework
 				if(isset($method) === true && $method === true) {
 					$action = REQUEST_METHOD.'_'.$action;
 				}
-				return call_user_func_array(array(&$insObj, $action), $args ? (is_array($args) ? $args : array($args)) : $this->route->raw());
+				return call_user_func_array(array(&$insObj, $action), $args ? (is_array($args) ? $args : array($args)) : $this->route->getSegment());
 			} else {
 				return $this->route->setException(\lime\_('메소드 없음'), 'method_does_not_exist', $_args);
 			}

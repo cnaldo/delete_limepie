@@ -10,8 +10,8 @@ class router
 	public $defaultBasedir		= '';
 	public $defaultPrefix		= '';
 	public $defaultError		= 'lime\error';
-	public $raw;
-	public $seg;
+	public $query;
+	public $segment;
 	public $route;
 	public $matchRoute;
 	public $prev;
@@ -19,7 +19,7 @@ class router
 	private $pathinfo; 
 	public function __construct($array = array()){
 		$this->pathinfo	= $this->_getPathinfo();
-		$this->raw		= explode('/',$this->pathinfo);
+		$this->segment		= explode('/',$this->pathinfo);
 		$this->route	= $array;
 	}
 	public function setException($message = '', $method = 'error', $args = array()) {
@@ -65,21 +65,21 @@ class router
 		$this->defaultController= $controllName;
 	}
 	/* get matched param */
-	public function seg($key=false) {
+	public function getQuery($key=false) {
 		if(false === $key) {
-			return $this->seg;
+			return $this->query;
 		}
-		return true === isset($this->seg[$key]) ? $this->seg[$key] : null;
+		return true === isset($this->query[$key]) ? $this->query[$key] : null;
 	}
 	/* get raw param */
-	public function raw($key=false, $end = false) {
+	public function getSegment($key=false, $end = false) {
 		if(false === $key) {
-			return $this->raw;
+			return $this->segment;
 		}
 		if(true === $end) {
-			return implode('/',array_slice ($this->raw, $key));      
+			return implode('/',array_slice ($this->segment, $key));      
 		}
-		return true === isset($this->raw[$key]) ? $this->raw[$key] : null;
+		return true === isset($this->segment[$key]) ? $this->segment[$key] : null;
 	}
 	public function pathinfo() {
 		return $this->pathinfo;
@@ -237,6 +237,6 @@ class router
 									? $this->defaultPrefix	: $__seg['prefix'];	
 
 
-		return $this->seg = $__seg + $_sys_vars + (array)$this->matchRoute[1]['default'];
+		return $this->query = $__seg + $_sys_vars + (array)$this->matchRoute[1]['default'];
 	} 
 }

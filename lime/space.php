@@ -9,17 +9,6 @@ namespace lime;
  * @category      system
  */
  
-function space($chk=null) {
-	if($chk == null) {
-		return space::data();
-	} else {
-		// Fatal error: Can't use function return value in write context 
-		// get 만 가능
-		return space::data()->$chk; 
-	}
-}
-
-
 class _space
 {
 	public $_variables = array();

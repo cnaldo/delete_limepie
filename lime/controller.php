@@ -6,14 +6,14 @@ class Controller
 {
 	public		$framework;
 	private		$route;
-	protected	$seg;
-	protected	$raw;
+	protected	$segment; // number
+	protected	$query;   // named
 
 	public function __construct() {
 		$this->framework	= \lime\framework::getInstance();
 		$this->route		= $this->framework->route;
-		$this->seg			= $this->route->seg();
-		$this->raw			= $this->route->raw();
+		$this->segment		= $this->route->getSegment();
+		$this->query			= $this->route->getQuery();
 	}
 	protected function getRoute() {
 		return $this->route;
@@ -21,23 +21,23 @@ class Controller
 	protected function getPrevRoute() {
 		return $this->route->prev;
 	}
-	protected function seg($key = false, $def = '') {
-		return $this->route->seg($key);
+	protected function segment($key = false, $def = '') {
+		return $this->route->getSegment($key);
 	}
-	protected function raw($key = false, $end = false) {
-		return $this->route->raw($key, $end);
+	protected function query($key = false, $end = false) {
+		return $this->route->getQuery($key, $end);
 	}
 	protected function getUri() {
 		return $this->route->pathinfo();
 	}
 	protected function getModule() {
-		return $this->route->seg['module'];
+		return $this->route->segment['module'];
 	}
 	protected function getController() {
-		return $this->route->seg['controller'];
+		return $this->route->segment['controller'];
 	}
 	protected function getAction() {
-		return $this->route->seg['action'];
+		return $this->route->segment['action'];
 	}
 	protected function getErrorController() {
 		return $this->route->defaultError;
