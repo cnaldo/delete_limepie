@@ -10,8 +10,8 @@ class router
 	public $defaultBasedir		= '';
 	public $defaultPrefix		= '';
 	public $defaultError		= 'lime\error';
-	public $query;
-	public $segment;
+	public $query; //named
+	public $segment; // number
 	public $route;
 	public $matchRoute;
 	public $prev;
@@ -24,21 +24,18 @@ class router
 	}
 	public function setException($message = '', $method = 'error', $args = array()) {
 		$this->is_error = true;
-		$class	= $this->defaultError;
-		$tmpObj	= new $class;
-		$_args	= array(
+		$class			= $this->defaultError;
+		$tmpObj			= new $class;
+		$_args			= array(
 			'method'	=> $method,
 			'message'	=> $message
 		);
-		$tmpObj->info = $_args + array('trace' => $args);
+		$tmpObj->info	= $_args + array('trace' => $args);
 		if(is_callable(array(&$tmpObj, $method))) {
 			return call_user_func_array(array(&$tmpObj, $method), $args);
 		} else {
 			throw new \Exception('error '.$method.' method_does_not_exist');
 		}
-	}
-	public function addRouter($array = array()) {
-		$this->route			+= $array;
 	}
 	public function setBasedir($forderName) {
 		$this->defaultBasedir	= $forderName;

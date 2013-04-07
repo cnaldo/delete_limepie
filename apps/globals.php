@@ -6,7 +6,7 @@ class apps_globals extends \lime\controller
 	public $ver = '100';
 	public function __construct() {
 		parent::__construct();
-		\lime\lang('main');	
+		\lime\Language::load('main');	
 	}
 	protected final function display($print = false) {
 		$tpl = new \lime\tpl;

@@ -106,14 +106,9 @@ function __t($module, $msgid, $arr = null) {
 /*필수파일 인클루드*/
 
 require_once("lime/function.php");
-require_once("lime/space.php");
-require_once("lime/crypt.php");
-require_once("lime/cookie.php");
-require_once("lime/language.php");
-require_once("lime/controller.php");
-require_once("lime/param.php");
 require_once("lime/clearstatcache.php");
 
 if(file_exists("config/construct.php")) {
 	require_once("config/construct.php");
 }
+

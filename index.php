@@ -18,12 +18,33 @@ try {
 	$front = \lime\framework::getInstance();
 	$front->setRouter($router);
 	echo $front->dispatch();
+} catch(\lime\SDOException $e) {
+	pr($e);
 } catch(\Exception $e) {
 	pr($e);
 }
+/*
+
+$micro = \lime\micro\framework::getInstance();
+
+$micro->get('', function() {
 
 
-exit();
+});
+
+$micro->get('/year/([0-9]+)', function($year = '2013') use ($micro) {
+
+
+});
+
+$micro->error(function($name, $year) use ($micro) {
+
+
+});
+echo $micro->dispatch();
+
+//exit();
 pr(readable_size(memory_get_peak_usage()));
 pr(readable_size(memory_get_usage()));
 pr(get_included_files());
+*/

@@ -52,6 +52,7 @@ class order_run extends apps_globals {
 		return $rules->save();
 	}
 	public function get_index() {
+	
 		$s = array(
 			'a'=>'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
 		);

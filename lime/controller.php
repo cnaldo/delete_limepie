@@ -13,7 +13,7 @@ class Controller
 		$this->framework	= \lime\framework::getInstance();
 		$this->route		= $this->framework->route;
 		$this->segment		= $this->route->getSegment();
-		$this->query			= $this->route->getQuery();
+		$this->query		= $this->route->getQuery();
 	}
 	protected function getRoute() {
 		return $this->route;
@@ -31,13 +31,13 @@ class Controller
 		return $this->route->pathinfo();
 	}
 	protected function getModule() {
-		return $this->route->segment['module'];
+		return $this->route->query['module'];
 	}
 	protected function getController() {
-		return $this->route->segment['controller'];
+		return $this->route->query['controller'];
 	}
 	protected function getAction() {
-		return $this->route->segment['action'];
+		return $this->route->query['action'];
 	}
 	protected function getErrorController() {
 		return $this->route->defaultError;
