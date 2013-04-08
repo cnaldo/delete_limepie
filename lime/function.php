@@ -243,3 +243,5 @@ function dir_scan($dir){
 	}
 	return $var;
 }
+
+

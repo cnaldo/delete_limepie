@@ -107,6 +107,7 @@ function __t($module, $msgid, $arr = null) {
 
 require_once("lime/function.php");
 require_once("lime/clearstatcache.php");
+require_once("lime/language.php");
 
 if(file_exists("config/construct.php")) {
 	require_once("config/construct.php");

@@ -43,6 +43,9 @@ class router
 	public function setError($controllerName) {
 		$this->defaultError	= $controllerName;
 	}
+	public function getErrorController() {
+		return $this->defaultError;
+	}
 	public function setPrefix($forderName) {
 		$this->defaultPrefix	= $forderName;
 	}

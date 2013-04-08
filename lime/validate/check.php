@@ -22,11 +22,12 @@ class check
 		'equalTo'		=> "{0} 항목과 동일한 값을 입력하십시오.",
 	);
 	public static function required($data) {
-		if(strlen($data) > 0) {
+		if(is_array($data) == true && count($data) > 0) {
 			return true;
-		} else {
-			return false;
+		} else if(strlen($data) > 0) {
+			return true;
 		}
+		return false;
 	}	
 	public static function email($data) {
 		$ex = "([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})";

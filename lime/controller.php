@@ -21,26 +21,26 @@ class Controller
 	protected function getPrevRoute() {
 		return $this->route->prev;
 	}
-	protected function segment($key = false, $def = '') {
+	protected function getSegment($key = false, $def = '') {
 		return $this->route->getSegment($key);
 	}
-	protected function query($key = false, $end = false) {
+	protected function getQuery($key = false, $end = false) {
 		return $this->route->getQuery($key, $end);
 	}
 	protected function getUri() {
 		return $this->route->pathinfo();
 	}
 	protected function getModule() {
-		return $this->route->query['module'];
+		return $this->route->getModule();
 	}
 	protected function getController() {
-		return $this->route->query['controller'];
+		return $this->route->getController();
 	}
 	protected function getAction() {
-		return $this->route->query['action'];
+		return $this->route->getAction();
 	}
 	protected function getErrorController() {
-		return $this->route->defaultError;
+		return $this->route->getErrorController();
 	}
 	protected function getSegAsArray($num=3) {
 		$_path	= array_slice ($this->raw, $num);

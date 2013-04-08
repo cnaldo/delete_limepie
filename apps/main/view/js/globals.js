@@ -50,43 +50,40 @@ $(document).ready(function() {
 		form.data('initialForm', form.serialize()); // 초기값
 		//form.beforeunload(); // 변동사항 체크
 	});
-	/* get tag name */
-	jQuery.fn.tagName = function() {
-		return this.each(function() {
-			return this.tagName;
-		});
-	}
-	jQuery.fn.outerHTML = function(s) {
-		return (s) ? this.before(s).remove() : jQuery("<p>").append(this.eq(0).clone()).html();
-	}
-	/* $('#str').trim() */
-	jQuery.fn.trim = function(  ) {
-		return $.trim(this);
-	}
-	/* $('#str').autofocus() */
-	jQuery.fn.autofocus = function() {
-		//Test to see if autofocus is natively supported before proceeding
-		if(this.first().autofocus!==true) {
-			this.focus();
-		}
-		return this;
-	};
 
-	jQuery.extend({ 
+	jQuery.extend(jQuery.fn,{ 
 		delay : function(time, callback){
 			jQuery.fx.step.delay = function(){};
 			return $('<div />').animate({delay:1}, time, callback);
-		}
-		, findByName: function( name, sel ) {
-			// select by name and filter by form for performance over form.find("[name=...]")
+		}, findByName: function( name, sel ) {
 			return $(document.getElementsByName(name), sel).map(function(index, element) {
 				return element  || null;
 			});
-		}		
+		}, unselectable: function(){
+			this.bind("selectstart.jq", function(){return false;}).css({
+				"MozUserSelect": "none",
+				"KhtmlUserSelect": "none"
+			}).get(0).unselectable = "on";
+		}, selectable: function(){
+			this.unbind("selectstart.jq").css({
+				"MozUserSelect": "text",
+				"KhtmlUserSelect": "text"
+			}).get(0).unselectable = "off";
+		}, autofocus : function() {
+			if(this.first().autofocus!==true) {
+				this.focus();
+			}
+			return this;
+		}, tagName : function() {
+			return this.each(function() {
+				return this.tagName;
+			});
+		}, outerHTML : function(s) {
+			return (s) ? this.before(s).remove() : jQuery("<p>").append(this.eq(0).clone()).html();
+		}, trim : function(  ) {
+			return $.trim(this);
+		}
 	});
-
-
-
 
 	jQuery.expr[':'].regex = function(elem, index, match) {
 		var matchParams = match[3].split(','),
@@ -269,120 +266,4 @@ function pr(arr,depth) {
 function nl2br (str, is_xhtml) {
     var brTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1'+ brTag +'$2');
-}
-
-
-jQuery.extend(jQuery.fn, {
-  unselectable: function(){
-    this.bind("selectstart.jq", function(){return false;}).css({
-      "MozUserSelect": "none",
-      "KhtmlUserSelect": "none"
-    }).get(0).unselectable = "on";
-  },
-  selectable: function(){
-    this.unbind("selectstart.jq").css({
-      "MozUserSelect": "text",
-      "KhtmlUserSelect": "text"
-    }).get(0).unselectable = "off";
-  }
-});
-
-
-var ObjectStack = function(obj) { 
-    this.object = obj; 
-    this.stack=[]; 
-}; 
-ObjectStack.prototype.push = function(key,value) { 
-    this.object[key]=value; 
-    this.stack.push(key); 
-	//consolelog('object push key:'+key+ ', prop:'+value);
-}; 
-ObjectStack.prototype.pop = function() { 
-    var key = this.stack.pop(); 
-    var prop = this.object[key]; 
-	//consolelog('object pop key:'+key+ ', prop:'+prop);
-    delete this.object[key]; 
-    return prop; 
-}; 
-ObjectStack.prototype.size = function() { 
-    var size = 0, key; 
-    for (key in this.object) { 
-        if (this.object.hasOwnProperty(key)) size++; 
-    } 
-    return size; 
-}; 
-
-function clone(obj) {
-    // Handle the 3 simple types, and null or undefined
-    if (null == obj || "object" != typeof obj) return obj;
-
-    // Handle Date
-    if (obj instanceof Date) {
-        var copy = new Date();
-        copy.setTime(obj.getTime());
-        return copy;
-    }
-
-    // Handle Array
-    if (obj instanceof Array) {
-        var copy = [];
-        for (var i=0, len = obj.length; i < len; ++i) {
-            copy[i] = clone(obj[i]);
-        }
-        return copy;
-    }
-
-    // Handle Object
-    if (obj instanceof Object) {
-        var copy = {};
-        for (var attr in obj) {
-            if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
-        }
-        return copy;
-    }
-
-    throw new Error("Unable to copy obj! Its type isn't supported.");
-}
-function array_kcross(option) {
-	var result = [];
-	var keys = [];
-	for (var k in option) keys.push(k);
-	var my_obj = {}; 
-	var stack = new ObjectStack(my_obj); 
-	(function(index) {
-		var key = keys[index];
-		if (!key) return;		
-		var values = option[key];
-		for (var i = 0, len = values.length; i < len; i++) {
-			stack.push(key, values[i]);
-			if (stack.size() == keys.length) {
-				result.push(clone(stack.object));
-			}
-			arguments.callee(index + 1);
-			stack.pop();
-		}		
-	})(0);	
-
-	return result;	
-}
-
-function array_cross(option) {
-	var result = [];
-	var keys = [];
-	for (var k in option) keys.push(k);
-	var stack = [];
-	(function(index) {
-		var key = keys[index];
-		if (!key) return;		
-		var values = option[key];
-		for (var i = 0, len = values.length; i < len; i++) {
-			stack.push(values[i]);
-			if (stack.length == keys.length) {
-				result.push([].concat(stack));
-			}
-			arguments.callee(index + 1);
-			stack.pop();
-		}		
-	})(0);	
-	return result;	
 }
