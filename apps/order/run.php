@@ -18,8 +18,9 @@ class order_run extends apps_globals {
 	private function create_rules() {
 		$rules = new \lime\validate\rules;
 
-		$rules->name('firstname')
-			  ->required(true, '이름은 필수입니다.')
+		$rules->name('firstname[]')
+			 // ->required(true, '이름은 필수입니다.')
+			  ->mincount(2, '이름을 2개 입력하세요.')
 			  ->match('([a-z]+)', '이름은 a-z만 허용됩니다.');
 /*
 		$rules->name('lastname')
@@ -44,7 +45,7 @@ class order_run extends apps_globals {
 */
 		$rules->name('topic[]')
 			  ->required(true)
-			  ->minlength(2, '토픽을 2개 이상 선택하세요.');
+			  ->mincount(2, '토픽을 2개 이상 선택하세요.');
 
 		$rules->name('agree')
 			  ->required(true, "Please accept our policy");

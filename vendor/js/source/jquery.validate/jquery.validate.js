@@ -358,8 +358,20 @@ $.extend($.validator, {
 			this.showErrors();
 			return this.valid();
 		},
-
-		checkForm: function() {
+		checkForm: function() { /* checkForm -> xcheckForm으로 변경, 이름기반으로 추가*/
+			this.prepareForm();
+			for ( var i = 0, elements = (this.currentElements = this.elements()); elements[i]; i++ ) {
+				if (this.findByName( elements[i].name ).length != undefined && this.findByName( elements[i].name ).length > 1) {
+					for (var cnt = 0; cnt < this.findByName( elements[i].name ).length; cnt++) {
+						this.check( this.findByName( elements[i].name )[cnt] );
+					}
+				} else {
+					this.check( elements[i] );
+				}
+			}
+			return this.valid();
+		},
+		xcheckForm: function() {
 			this.prepareForm();
 			for ( var i = 0, elements = (this.currentElements = this.elements()); elements[i]; i++ ) {
 				this.check( elements[i] );
@@ -1109,7 +1121,7 @@ $.extend($.validator, {
 		equalTo: function( value, element, param ) {
 			// bind to the blur event of the target in order to revalidate whenever the target field is updated
 			// TODO find a way to bind the event just once, avoiding the unbind-rebind overhead
-			var target = $(param);
+			var target = $.findByName(param); // $->$.findByName로 추가
 			if ( this.settings.onfocusout ) {
 				target.unbind(".validate-equalTo").bind("blur.validate-equalTo", function() {
 					$(element).valid();
@@ -1117,7 +1129,17 @@ $.extend($.validator, {
 			}
 			return value === target.val();
 		},
-
+		xequalTo: function( value, element, param ) {
+			// bind to the blur event of the target in order to revalidate whenever the target field is updated
+			// TODO find a way to bind the event just once, avoiding the unbind-rebind overhead
+			var target = $(param);
+			if ( this.settings.onfocusout ) {
+				target.unbind(".validate-equalTo").bind("blur.validate-equalTo", function() {
+					$(element).valid();
+				});
+			}
+			return value === target.val();
+		},		
 		// http://docs.jquery.com/Plugins/Validation/Methods/remote
 		remote: function( value, element, param ) {
 			if ( this.optional(element) ) {

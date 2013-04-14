@@ -2,7 +2,7 @@
 <!--<script src="<?php echo BASE_PATH;?>vendor/js/source/jquery/jquery-migrate-1.1.0.min.js"></script>-->
 <script src="<?php echo BASE_PATH;?>vendor/js/source/jquery.validate/jquery.validate.js"></script>
 <!--<script src="<?php echo BASE_PATH;?>apps/layout/js/jquery.validate.ext.js"></script>-->
-<script src="<?php echo BASE_PATH;?>apps/main/view/js/globals.js"></script>
+<script src="<?php echo BASE_PATH;?>apps/main/view/js/globals.js?ver=33"></script>
 <script src="<?php echo BASE_PATH;?>apps/main/view/js/validate.js"></script>
 
 <a href='<?php echo BASE_PATH;?>build/'>aaa</a> 
@@ -38,7 +38,7 @@ function check(form) {
 			}
 		});
 	} catch (e) {
-		alert(e);
+		consolelog(e);
 	}
 
 	return false;
@@ -51,7 +51,8 @@ function check(form) {
 		<legend>Validating a complete form</legend>
 		<p>
 			<label for="firstname">Firstname</label>
-			<input id="firstname" name="firstname" type="text" />
+			<input id="firstname" name="firstname[]" type="text" /><br />
+			<input id="firstname" name="firstname[]" type="text" />
 
 		</p>
 		<fieldset id="newsletter_topics">

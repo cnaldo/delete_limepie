@@ -9,6 +9,42 @@ $(document).ready(function() {
 			return this.optional(element) || reg.test(value);
 		}, "");
 
+		// http://docs.jquery.com/Plugins/Validation/Methods/minlength
+		jQuery.validator.addMethod("minlength", function( value, element, param ) {
+			var length = $.isArray( value ) ? value.length : this.getLength($.trim(value), element);
+			return this.optional(element) || length >= param;
+		}, "");
+
+		// http://docs.jquery.com/Plugins/Validation/Methods/maxlength
+		jQuery.validator.addMethod("maxlength", function( value, element, param ) {
+			var length = $.isArray( value ) ? value.length : this.getLength($.trim(value), element);
+			return this.optional(element) || length <= param;
+		}, "");
+
+		// http://docs.jquery.com/Plugins/Validation/Methods/rangelength
+		jQuery.validator.addMethod("rangelength", function( value, element, param ) {
+			var length = $.isArray( value ) ? value.length : this.getLength($.trim(value), element);
+			return this.optional(element) || ( length >= param[0] && length <= param[1] );
+		}, "");
+
+		// http://docs.jquery.com/Plugins/Validation/Methods/minlength
+		jQuery.validator.addMethod("mincount", function( value, element, param ) {
+			var length = $.findByNameCount(element.name);
+			return length >= param;
+		}, "");
+
+		// http://docs.jquery.com/Plugins/Validation/Methods/maxlength
+		jQuery.validator.addMethod("maxcount", function( value, element, param ) {
+			var length = $.findByNameCount(element.name);
+			return length <= param;
+		}, "");
+
+		// http://docs.jquery.com/Plugins/Validation/Methods/rangelength
+		jQuery.validator.addMethod("rangecount", function( value, element, param ) {
+			var length = $.findByNameCount(element.name);
+			return ( length >= param[0] && length <= param[1] );
+		}, "");		
+
 		jQuery.validator.addMethod("remote", function(value, element, param) {
 
 			if ( this.optional(element) ) {
@@ -175,7 +211,7 @@ $(document).ready(function() {
 					dataType:'json'
 				});
 			} catch (e) {
-				alert(pr(e));
+				consolelog(e);
 			}
 			$.delay(1000, function() {
 				__submit = false;
@@ -247,7 +283,7 @@ $(document).ready(function() {
 				});
 			}		
 		} catch (e) {
-			alert(pr(e));
+			consolelog(e);
 		}
 		//$(window).unbind('beforeunload');
 		consolelog(manual);
@@ -340,7 +376,7 @@ function _submit(form, filter, success, error) {
 			});
 		}		
 	} catch (e) {
-		alert(pr(e));
+		consolelog(e);
 	}
 	return __submit = false;
 }

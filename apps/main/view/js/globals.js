@@ -2,42 +2,7 @@ function css_browser_selector(u){var ua=u.toLowerCase(),is=function(t){return ua
 css_browser_selector(navigator.userAgent);
 //alert(css_browser_selector(navigator.userAgent));
 
-try {
-	document.execCommand("BackgroundImageCache", false, true);
-} catch(err) {}
 
-var jsload = function(src){
-	var script = document.createElement('script'); 
-	script.type = 'text/javascript'; 
-	script.src = src;
-	document.getElementsByTagName('head')[0].appendChild(script);
-};
-
-function consolelog(msg) {
-	try	{
-		console.log(msg);
-	} catch (e) {
-	}
-}
-/* _translations */
-function _t(msgid) {
-	//var _translations = {};
-
-    if ( typeof _translations == "undefined" || typeof _translations[msgid] == "undefined") {
-        return msgid;
-    } else {
-		return _translations[msgid];
-	}
-}
-/**
- * @brief string prototype으로 trim 함수 추가
- **/
-function trim(str) {
-	return str.toString().trim();
-}
-String.prototype.trim = function() {
-    return this.replace(/(^\s*)|(\s*$)/g, "");
-}
 $(document).ready(function() {
 	jQuery.ajaxSetup({
 		jsonp: null,
@@ -51,14 +16,32 @@ $(document).ready(function() {
 		//form.beforeunload(); // 변동사항 체크
 	});
 
+	jQuery.extend({ 
+		findByName: function( name, sel ) {
+			return $(document.getElementsByName(name), sel).map(function(index, element) {
+				return element  || null;
+			});
+		},
+		findByNameCount: function( name, sel ) {
+			var tmp = $.findByName(name);
+			var length = 0;
+			//console.log(length);
+			$.each(tmp, function(index, e) {
+				if($(e)[0].type.toLowerCase() == 'text' && $(e)[0].value) {
+					length=length+1;
+				} else if($(e)[0].type.toLowerCase() == 'checkbox' && $(e)[0].checked) {
+					length=length+1;
+				} else if($(e)[0].type.toLowerCase() == 'radio' && $(e)[0].checked) {
+					length=length+1;
+				}
+			});
+			return length;
+		}
+	});
 	jQuery.extend(jQuery.fn,{ 
 		delay : function(time, callback){
 			jQuery.fx.step.delay = function(){};
 			return $('<div />').animate({delay:1}, time, callback);
-		}, findByName: function( name, sel ) {
-			return $(document.getElementsByName(name), sel).map(function(index, element) {
-				return element  || null;
-			});
 		}, unselectable: function(){
 			this.bind("selectstart.jq", function(){return false;}).css({
 				"MozUserSelect": "none",
@@ -102,19 +85,41 @@ $(document).ready(function() {
 });
 
 
+try {
+	document.execCommand("BackgroundImageCache", false, true);
+} catch(err) {}
 
+var jsload = function(src){
+	var script = document.createElement('script'); 
+	script.type = 'text/javascript'; 
+	script.src = src;
+	document.getElementsByTagName('head')[0].appendChild(script);
+};
 
+function consolelog(msg) {
+	try	{
+		console.log(msg.message);
+	} catch (e) {
+	}
+}
 
+/* _translations */
+function _t(msgid) {
+	//var _translations = {};
 
+    if ( typeof _translations == "undefined" || typeof _translations[msgid] == "undefined") {
+        return msgid;
+    } else {
+		return _translations[msgid];
+	}
+}
 
-
-
-
-
-
-
-
-
+function trim(str) {
+	return str.toString().trim();
+}
+String.prototype.trim = function() {
+    return this.replace(/(^\s*)|(\s*$)/g, "");
+}
 
 /* in_array */
 function in_array(arr, chk) {
@@ -129,7 +134,6 @@ Array.prototype.in_array = function (value) {
 	}
 	return false;
 };
-
 
 String.prototype.replaceAll = function(a, b) {
 	return this.split(a).join(b);

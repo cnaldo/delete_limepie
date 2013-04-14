@@ -53,6 +53,27 @@ class rules
 		}
 		return $this;
 	}
+	function maxcount($maxcount, $message='') {
+		$this->rules[$this->name]['maxcount']			= $maxcount;
+		if($message) {
+			$this->messages[$this->name]['maxcount']	= $message;
+		}
+		return $this;
+	}	
+	function mincount($mincount, $message='') {
+		$this->rules[$this->name]['mincount']			= $mincount;
+		if($message) {
+			$this->messages[$this->name]['mincount']	= $message;
+		}
+		return $this;
+	}
+	function rangecount($rangecount, $message='') {
+		$this->rules[$this->name]['rangecount']			= $rangecount;
+		if($message) {
+			$this->messages[$this->name]['rangecount']	= $message;
+		}
+		return $this;
+	}	
 	function max($max, $message='') {
 		$this->rules[$this->name]['max']				= $max;
 		if($message) {

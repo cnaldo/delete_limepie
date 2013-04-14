@@ -4,6 +4,11 @@ namespace lime\validate;
 
 class check
 {
+	public static $group_rules = array(
+		'maxcount'
+		, 'mincount'
+		, 'rangecount'
+	);
 	public static $messages	= array(
 		'maxlength'		=> "{0} 자 이내로 입력하세요.",
 		'minlength'		=> "{0} 자 이상 입력하세요.",
@@ -21,7 +26,7 @@ class check
 		'url'			=> "유효한 URL을 입력하십시오.",
 		'equalTo'		=> "{0} 항목과 동일한 값을 입력하십시오.",
 	);
-	public static function required($data) {
+	public static function required($data = '') {
 		if(is_array($data) == true && count($data) > 0) {
 			return true;
 		} else if(strlen($data) > 0) {
@@ -30,14 +35,17 @@ class check
 		return false;
 	}	
 	public static function email($data) {
+		if(strlen($data) == 0) return false;
 		$ex = "([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})";
 		return preg_match("/^".($ex)."$/i",$data);
 	}
 	public static function url($data) {
+		if(strlen($data) == 0) return false;
 		$ex = '(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})';
 		return preg_match("/^".($ex)."$/i",$data);
 	}
 	public static function match($data, $match) {
+		if(strlen($data) == 0) return false;
 		return preg_match("/^".$match."$/",$data);
 	}
 	public static function minlength($data, $minlength) {
@@ -65,22 +73,32 @@ class check
 			return true;
 		}
 	}
-	public static function mincount($data, $minlength) {
-		if(is_array($data) == true && count($data) < $minlength){
-			return false;
-		} else {
+	public static function mincount($data, $mincount) {
+		$length = 0;
+		foreach($data as $key => $value) {
+			if($value) $length ++;
+		}
+		if(is_array($data) == true && $length >= $mincount){
 			return true;
 		}
+		return false;
 	}
-	public static function maxcount($data, $maxcount) {
-		if(is_array($data) == true && count($data) > $maxcount){
-			return false;
-		} else {
+	public static function maxcount($data, $mincount) {
+		$length = 0;
+		foreach($data as $key => $value) {
+			if($value) $length ++;
+		}		
+		if(is_array($data) == true && $length < $mincount){
 			return true;
 		}
+		return false;
 	}
 	public static function rangecount($data, $rangelength) {
-		if(is_array($data) == true && (($a = count($data)) < $rangelength[0] || $a > $rangelength[1])){
+		$length = 0;
+		foreach($data as $key => $value) {
+			if($value) $length ++;
+		}		
+		if(is_array($data) == true && $length >= $rangelength[0] && $length < $rangelength[1]){
 			return false;
 		} else {
 			return true;
