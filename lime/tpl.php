@@ -10,6 +10,7 @@ class tpl
 {
 	public $tpl_ = array();
 	public $var_ = array();
+	public $caching = false;
 	public function __construct() {
 		$this->notice			=true;
 		$this->tpl_path			='';
@@ -72,6 +73,9 @@ class tpl
 		$tpl_path		= $this->tpl_path($fid);
 		$compile_path	= $this->compile_path.str_replace(HTDOCS_FOLDER, DS, $tpl_path).".php";
 
+		if($this->caching) {
+			ob_start();
+		}
 		if(ENVIRONMENT == 'production') {
 			$this->_include_tpl($compile_path, $fid);//, $scope);
 		} else {
@@ -100,7 +104,10 @@ class tpl
 			}
 			error_reporting($this->ebase);
 		}
-
+		if($this->caching) {
+			$text=ob_get_contents();
+			ob_end_flush();
+		}
 	}
 	public function _include_tpl($TPL_CPL, $TPL_TPL) {//, $TPL_SCP)
 		extract($this->var_);

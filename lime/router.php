@@ -201,9 +201,9 @@ class router
 		/*1. url 매칭*/
 		for ($i=0, $max = count($_path) + 1; $i<=$max-2; $i+=2) { 
 			if(true === isset($_path[$i]) && $_path[$i]) {
-				if(true === isset($_path[$i+1])) {
+				//if(true === isset($_path[$i+1])) {
 					$_vars[$_path[$i]] = (true === isset($_path[$i+1]) ? $_path[$i+1] : '');
-				}
+				//}
 			}
 		} 
 

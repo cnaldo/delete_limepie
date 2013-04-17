@@ -2,6 +2,36 @@
 
 require_once("lime/bootstrap.php");
 
+$micro = new \lime\micro();
+
+$micro->route('GET', '', function() {
+	return 'hello world';
+});
+
+$micro->route('GET', '/year/([0-9]+)', function($year = '2013', $a=0, $b='') {
+	$micro->seg('');
+	return $year + 2;
+});
+
+$micro->route('GET', '/year2/([0-9]+)/([a-z0-9]+)/([a-z0-9]+)', function($year2 = '2013', $a=0, $b='') {
+	$micro->seg('');
+	return $year2 + 4;
+});
+
+$micro->route('GET', '/year2/([0-9]+)/([a-z0-9]+)/([a-z0-9]+)/?(.*)', function($year2 = '2013', $a, $b) {
+	pr($this);
+	//secho $param;
+	echo $this->seg('c');
+	echo $this->raw(0);
+	return $year2 + 4;
+});
+
+$micro->error(function() {
+	echo 'not found';
+});
+
+echo $micro->dispatch();
+exit();
 try {
 	$router = new \lime\router(array(
 		'(.*)' => array(
@@ -23,26 +53,10 @@ try {
 } catch(\Exception $e) {
 	pr($e);
 }
+
+
+
 /*
-
-$micro = \lime\micro\framework::getInstance();
-
-$micro->get('', function() {
-
-
-});
-
-$micro->get('/year/([0-9]+)', function($year = '2013') use ($micro) {
-
-
-});
-
-$micro->error(function($name, $year) use ($micro) {
-
-
-});
-echo $micro->dispatch();
-
 //exit();
 pr(readable_size(memory_get_peak_usage()));
 pr(readable_size(memory_get_usage()));
