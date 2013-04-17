@@ -31,6 +31,7 @@ $micro->error(function() {
 });
 
 echo $micro->dispatch();
+/*
 exit();
 try {
 	$router = new \lime\router(array(
@@ -54,7 +55,7 @@ try {
 	pr($e);
 }
 
-
+*/
 
 /*
 //exit();
