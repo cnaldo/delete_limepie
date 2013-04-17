@@ -45,19 +45,22 @@ function mbstrlen($str) {
 	}
 	return $count;
 }
-function print_p($expression, $return = false) {
-	return pr($expression, $return);
-}
 
-function pr($expression, $return = false) {
-	$ret = '<pre>';
-	$ret .= print_r($expression, true);
-	$ret .= '</pre>';
+if(!function_exists('print_p')) {
+	function print_p($expression, $return = false) {
+		return pr($expression, $return);
+	}
 
-	if(true === $return) {
-		return $ret;
-	} else {
-		echo $ret;
+	function pr($expression, $return = false) {
+		$ret = '<pre>';
+		$ret .= print_r($expression, true);
+		$ret .= '</pre>';
+
+		if(true === $return) {
+			return $ret;
+		} else {
+			echo $ret;
+		}
 	}
 }
 
