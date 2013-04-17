@@ -2,10 +2,13 @@
 
 require_once("lime/bootstrap.php");
 
-$micro = new \lime\micro();
+
+
+$micro = new apps_micro();
 
 $micro->route('GET', '', function() {
-	return 'hello world';
+	$this->content('read.tpl');
+	return $this->display();
 });
 
 $micro->route('GET', '/year/([0-9]+)', function($year = '2013', $a=0, $b='') {
@@ -31,6 +34,7 @@ $micro->error(function() {
 });
 
 echo $micro->dispatch();
+
 /*
 exit();
 try {
