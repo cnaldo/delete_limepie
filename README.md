@@ -402,9 +402,9 @@ Template_의 문법을 일부 개선한 수정버전으로 템플릿 기호를 P
 PHP 코드가 있습니다. 
 
 ```php
-<?php if(true === isset($address) && true === is_array($address) {\ ?>
+<?php if(true === isset($address) && true === is_array($address) { ?>
      <?php foreach ($address as $key => $addr):?> 
-         <?php if(isset($addr["name"])) {\ ?>
+         <?php if(isset($addr["name"])) { ?>
              <?php echo $addr["name"]; ?>
          <?php } ?>
      <?php endforeach; ?>
