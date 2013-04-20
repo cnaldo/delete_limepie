@@ -390,3 +390,199 @@ class application_blog extends controller {
 
 프레임웍은 서버상에 실제 존재하는 파일을 실행하는 것이 아니라 URI 요청을 ROUTE의 분석에 의해 사용자 컨트롤러 클레스의 액션 메소드를 실행하여 동작시키므로 웹서버가 자체적으로 보여주는 에러페이지들을 사용할수 없고, 제공되는 에러 처리 컨트롤러를 사용하거나 확장하여 에러페이지를 작성하여야 합니다.
 
+
+VIEW
+----
+
+Template_의 문법을 일부 개선한 수정버전으로 템플릿 기호를 PHP 코드로 변환하고, PHP 파일을 실행하여 Pure PHP 그 이상의 강력한 성능을 발휘합니다.
+
+몇개의 간단한 기호를 사용함으로 개발자에게 반복작업의 축소하거나 디자이너가 템플릿 파일을 효율적으로 다룰수도 있습니다. 
+
+
+PHP 코드가 있습니다. 
+
+```php
+<?php if(true === isset($address) && true === is_array($address) {\ ?>
+     <?php foreach ($address as $key => $addr):?> 
+         <?php if(isset($addr["name"])) {\ ?>
+             <?php echo $addr["name"]; ?>
+         <?php } ?>
+     <?php endforeach; ?>
+<?php } else { ?>
+     <?php echo 'none'; ?>
+<?php } ?> 
+```
+
+템플릿 엔진에서 사용되는 기호는 아래와 같습니다. 
+
+```
+{@addr=address} 
+     {?isset(addr.name)}
+         {addr.name}
+     {/}
+{:}
+     {'none'}
+{/} 
+```
+
+이 기호들은 템플릿 엔진의 파서를 거쳐 위와 동일한 PHP 파일을 생성합니다. 
+
+
+
+
+###명령어
+
+1. 반복문 `{@row=data} ... {/}` 
+
+  @는 루프문의 시작을 나타내며,
+  data가 리턴하는 배열의 요소수만큼 반복됩니다. 
+  `foreach($data as $key => $value) { ... }`로 변환. 
+
+2. 조건문 `{?expression} ... {/}` 
+
+  ?는 조건문의 시작을 나타내며,
+  `if($expression) { ... }` 로 변환. 
+
+
+3. 조건문 `{?expression} ... {:} ... {/}` 
+
+  :는 else구문을 나타내며,
+  `if($expression) { ... } else { ... }` 로 변환. 
+
+
+4. 조건문 `{?expression1} ... {:?expression2} ... {/}` 
+
+  :?는 else if 구문을 나타내며,
+  `if($expression1) { ... } else if($expression2) { ... }` 로 변환. 
+
+
+5. 종결문 {/} 
+
+  /는 루프나 분기문의 끝을 나타냅니다. 
+
+
+6. 출력문 `{=expression}` 
+
+  =는 템플릿 변수 또는 표현식의 값을 출력하며 `echo $expression;` 로 변환. 
+
+
+
+```php
+<?php
+// index.php
+
+... 
+$tpl->define('index', 'index.tpl'); 
+$tpl->assign('fruit', array('apple'=>'red', 'banana'=>'yellow', 30=>'unknown')); 
+$tpl->print_('index'); 
+```
+
+
+###예약변수
+
+
+1. index_
+
+  루프문 내에서 사용하며 0부터 시작하는 루프번호입니다.
+
+  ```
+  <!-- index.tpl -->
+
+  {@row=fruit}
+     {row.index_}
+  {/} 
+  ```
+
+  ```
+  <!-- output -->
+
+  0
+  1
+  2 
+  ```
+
+2. key_
+
+  루프로 할당된 배열의 키입니다.
+
+  ```
+  <!-- index.tpl -->
+
+  {@row=fruit}
+     {row.key_}
+  {/} 
+  ```
+
+  ```
+  <!-- output -->
+
+  apple
+  banana
+  30 
+  ```
+
+3. value_
+
+  루프로 할당된 배열의 값입니다.
+
+  ```
+  <!-- index.tpl -->
+
+  {@row=fruit}
+     {row.value_}
+  {/} 
+  ```
+
+  ```
+  <!-- output -->
+
+  red
+  yellow
+  unknown 
+  ```
+
+4. size_
+
+  루프의 전체 반복 횟수, 즉 루프로 할당된 배열의 크기입니다.
+
+  루프안 에서 사용할때는 배열아이디인 fruit에서 꺼내어 fruit.size_로 사용할수 있고,
+  루프밖 에서 사용할때는 배열아이디인 fruit에서 꺼내어 fruit.size_와 같이 사용해야합니다. 
+
+  ```
+  <!-- index.tpl -->
+
+  {@row=fruit}
+     {row.index_} : {row.size_} : {fruit.size_}
+  {/} 
+  num of fruit : {fruit.size_} 
+  ```
+
+  ```
+  <!-- output -->
+
+  0 : 3 : 3
+  1 : 3 : 3
+  2 : 3 : 3
+
+  num of fruit : 3 
+  ```
+
+5. last_
+
+  루프의 마지막 요소인지 체크합니다. 아래는 루프의 마지막인 경우 <br />를 생략하는 예제입니다.
+
+  ```
+  <!-- index.tpl -->
+
+  {@row=fruit}
+     {row.index_}{?!row.last_} <br />{/}
+  {/} 
+  ```
+
+  ```
+  <!-- output -->
+
+  red <br />
+  yellow <br />
+  unknown 
+  ```
