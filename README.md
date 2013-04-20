@@ -467,6 +467,9 @@ PHP 코드가 있습니다.
 
 
 
+
+###예약변수
+
 ```php
 <?php
 // index.php
@@ -476,10 +479,6 @@ $tpl->define('index', 'index.tpl');
 $tpl->assign('fruit', array('apple'=>'red', 'banana'=>'yellow', 30=>'unknown')); 
 $tpl->print_('index'); 
 ```
-
-
-###예약변수
-
 
 1. index_
 
