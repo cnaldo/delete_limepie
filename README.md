@@ -21,6 +21,8 @@ ROUTE
 ### Case #1
 application 폴더 안에 클래스 파일 단위로 기능을 구현하여 사용할수 있는 구조로 URL은 아래와 같이 /controller/action에 매핑됩니다.
 ```php
+<?php
+
 $router = new router(array(
   '(.*)' => array(
     ':controller/:action',
@@ -56,14 +58,16 @@ $router = new router(array(
   - 매개변수  :   
 
   ```php
-$field = $this->getQeury("field"); // date
-$sort  = $this->getQeury("sort");    // desc 
-$param0 = $this->getSegment(0); // blog 
-$param1 = $this->getSegment(1); // list 
-$param1 = $this->getSegment(2); // field 
-$param2 = $this->getSegment(3); // date 
-$param3 = $this->getSegment(4); // sort 
-$param4 = $this->getSegment(5); // desc 
+  <?php
+
+  $field  = $this->getParam("field"); // date
+  $sort   = $this->getParam("sort");    // desc 
+  $param0 = $this->getSegment(0); // blog 
+  $param1 = $this->getSegment(1); // list 
+  $param1 = $this->getSegment(2); // field 
+  $param2 = $this->getSegment(3); // date 
+  $param3 = $this->getSegment(4); // sort 
+  $param4 = $this->getSegment(5); // desc 
   ``` 
 
 
@@ -74,6 +78,8 @@ basedir을 application로 설정하면 Case #1과는 달리 application가 모�
 
 각각의 컨트롤러 클래스의 index 메소드(action 기본 지정)를 자동 실행하므로 클래스내에 반드시 존재해야합니다. 
 ```php
+<?php
+
 $router = new router(array(
     '(.*)' => array(
         ':module/:controller/',
@@ -109,14 +115,16 @@ $router = new router(array(
   - 매개변수  :  
 
   ```php
-$field = $this->getQeury("field"); // date 
-$sort  = $this->getQeury("sort");    // desc 
-$param0 = $this->getSegment(0); // blog 
-$param1 = $this->getSegment(1); // list 
-$param1 = $this->getSegment(2); // field 
-$param2 = $this->getSegment(3); // date 
-$param3 = $this->getSegment(4); // sort 
-$param4 = $this->getSegment(5); // desc 
+  <?php
+
+  $field  = $this->getParam("field"); // date 
+  $sort   = $this->getParam("sort");    // desc 
+  $param0 = $this->getSegment(0); // blog 
+  $param1 = $this->getSegment(1); // list 
+  $param1 = $this->getSegment(2); // field 
+  $param2 = $this->getSegment(3); // date 
+  $param3 = $this->getSegment(4); // sort 
+  $param4 = $this->getSegment(5); // desc 
   ``` 
 
 
@@ -128,6 +136,8 @@ $param4 = $this->getSegment(5); // desc
 아래는 http://example.com/param1/param2, http://example.com/param1/param2/param3/param4 등 3개의 parameter를 가변적으로 인식할수 있는 규칙입니다. ("/"와 "/"사이의 문자열을 매칭시키고 "/"를 제외한 문자열만 추출합니다. 각각은 필수가 아닙니다.) 
 
 ```php
+<?php
+
 $router = new router(array(
      '(?:([^/]+)/?)?(?:([^/]+)/?)?(?:([^/]+)/?)?(.*)' => array(
          ':module/:controller/:action/',
@@ -142,6 +152,8 @@ $router = new router(array(
 아래의 예제는 blog 모듈과 board 모듈에 대해서 http://example.com/blog/321 등 두번째 parameter가 숫자일경우 read로 간주하게 합니다. http://example.com/blog/list/47 와 같이 두번째 parameter가 list이고 세번째 parameter가 숫자일 경우 페이지 번호로 인식하게 합니다. (순차적으로 검사를 하므로 너무 많은 규칙을 넣는것은 좋지 않습니다.) 
 
 ```php
+<?php
+
 $router = new router(array(
      '(blog|board)/(\d+)' => array( // read
          ':module/:sequence/',
@@ -162,8 +174,10 @@ $router = new router(array(
   - 매개변수  :  
   
   ```php
-$sequence = $this->getQeury("sequence"); // 321 
-$param1 = $this->getSegment(1); // 321 
+  <?php
+
+  $sequence = $this->getParam("sequence"); // 321 
+  $param1   = $this->getSegment(1); // 321 
   ``` 
 
 `GET http://example.com/blog/list/47` 
@@ -173,8 +187,10 @@ $param1 = $this->getSegment(1); // 321
   - 매개변수  :  
 
   ```php
-$pagenum = $this->getQeury("pagenum"); // 47 
-$param1 = $this->getSegment(2); // 47 
+  <?php
+
+  $pagenum = $this->getParam("pagenum"); // 47 
+  $param1  = $this->getSegment(2); // 47 
   ``` 
 
 
@@ -185,6 +201,8 @@ httpd://example.com/blog/339/field/date/sort/desc 는 아래의 라우터에 매
 매개변수 $field = "date"; $sort = "desc";를 얻을수 있습니다. 
 
 ```php
+<?php
+
 $router = new router(array(
      '(blog|board)/(\d+)?(.*)' => array( // read
          ':module/:controller/',
@@ -200,14 +218,16 @@ $router = new router(array(
   - 매개변수  :  
   
   ```php
-$field = $this->getQeury("field"); // date 
-$sort  = $this->getQeury("sort");    // desc 
-$param0 = $this->getSegment(0); // blog 
-$param1 = $this->getSegment(1); // list 
-$param1 = $this->getSegment(2); // field 
-$param2 = $this->getSegment(3); // date 
-$param3 = $this->getSegment(4); // sort 
-$param4 = $this->getSegment(5); // desc 
+  <?php
+
+  $field  = $this->getParam("field"); // date 
+  $sort   = $this->getParam("sort");    // desc 
+  $param0 = $this->getSegment(0); // blog 
+  $param1 = $this->getSegment(1); // list 
+  $param1 = $this->getSegment(2); // field 
+  $param2 = $this->getSegment(3); // date 
+  $param3 = $this->getSegment(4); // sort 
+  $param4 = $this->getSegment(5); // desc 
   ``` 
 
 
@@ -215,6 +235,8 @@ $param4 = $this->getSegment(5); // desc
 아래의 예에서처럼 '(.*)'가 규칙의 마지막에 없을경우 :module 가 $1, :controller 가 $2에 대입되고 'field/date/sort/desc'등 나머지를 처리할 룰이 없으므로 매개변수 seg의 값이 null이 됩니다. 
 
 ```php
+<?php
+
 $router = new router(array(
      '(blog|board)/(\d+)' => array( // read
          ':module/:controller/',
@@ -230,12 +252,141 @@ $router = new router(array(
   - 매개변수  :  
 
   ```php
-$field = $this->getQeury("field"); // null 
-$sort  = $this->getQeury("sort");    // null 
-$param0 = $this->getSegment(0); // blog 
-$param1 = $this->getSegment(1); // list 
-$param1 = $this->getSegment(2); // field 
-$param2 = $this->getSegment(3); // date 
-$param3 = $this->getSegment(4); // sort 
-$param4 = $this->getSegment(5); // desc 
+  <?php
+
+  $field  = $this->getParam("field"); // null 
+  $sort   = $this->getParam("sort");    // null 
+  $param0 = $this->getSegment(0); // blog 
+  $param1 = $this->getSegment(1); // list 
+  $param1 = $this->getSegment(2); // field 
+  $param2 = $this->getSegment(3); // date 
+  $param3 = $this->getSegment(4); // sort 
+  $param4 = $this->getSegment(5); // desc 
   ``` 
+
+
+
+
+
+CONTROLLER
+----------
+
+리퀘스트 프로세싱 로직으로 비지니스 로직(모델)과 프리젠테이션 로직(뷰)을 연결해 줍니다. 
+
+URI는 ROUTE를 거쳐 사용자 컨트롤러 클레스의 액션 메소드를 동작시킵니다. 사용자 컨트롤러 클레스는 반드시 부모 컨트롤러 클레스로 부터 상속(extends) 받아야 하며 그렇지 않을 경우 컨트롤러의 기능을 사용할 수 없습니다. 
+
+```php
+<?php
+// application_blog.php
+
+class application_blog extends controller {
+     function get_list() {
+         echo "Hello World!";
+     }
+} 
+```
+
+
+컨트롤러 클래스는 서브 클래스를 만들어 컨트롤러 클래스의 기반이되는 인터페이스와 기능을 새롭게 정의 수 있습니다. 아래는 모든 페이지에서 접속자의 회원정보를 검사하기 위해 컨트롤러 클래스를 확장한 예제입니다. 
+
+```php
+<?php
+// my_controller.php
+
+class my_controller extends controller {
+     public $user = array();    // 접속자의 회원정보
+
+    function __construct() {   // 생성자를 사용한다면
+        parent::__construct(); // 반듯이 부모 컨트롤러 클래스의 생성자를 호출해야함 
+
+        $user_id = cookie::get("user_id");
+         $this->user = $this->getUserInfo($user_id); // 접속자의 회원정보
+    }
+
+     function getUserInfo($id) {
+         return array("......");
+     }
+} 
+```
+
+```php
+<?php
+// application_blog.php
+
+class application_blog extends my_controller {
+     function get_list() {
+         echo $this->user." Hello World!";
+     }
+} 
+```
+
+
+
+### 매개변수
+
+URI로 매개변수를 얻는 방법은 3가지가 있습니다. 
+
+
+####※ segment
+
+segment 는 URI에서 0부터 1씩증가하는 형태로 순서대로 접근하여 매개변수를 얻습니다. 
+
+`GET http://example/blog/list/date/desc` 
+
+```php
+<?php
+
+class application_blog extends controller {
+    function get_list() {
+        echo $this->getSegment(0); // blog
+        echo $this->getSegment(1); // list
+        echo $this->getSegment(2); // date
+        echo $this->getSegment(3); // desc
+    }
+} 
+```
+
+####※ parameter
+
+parameter 는 ROUTE에서 module, controller, action등에 매칭된 나머지로 짝을 맺어 매개변수를 얻습니다. 
+
+`GET http://example/blog/list/field/date/sort/desc` 
+
+```php
+<?php
+
+class application_blog extends controller {
+    function get_list() {
+        // blog는 controller
+        // list는 action
+        echo $this->getParam("field"); // date
+        echo $this->getParam("sort");  // desc
+    }
+}
+```
+
+
+####※ argument
+
+메소드의 argument 로 부터 매개변수를 얻습니다. 
+
+`GET http://example/blog/list/date/desc` 
+
+```php
+<?php
+
+class application_blog extends controller {
+    function get_list($controller, $action, $field, $sort) {
+        echo $controller; // blog
+        echo $action;     // list
+        echo $field;      // date
+        echo $sort;       // desc
+    }
+}
+```
+
+
+### 에러 처리 컨트롤러
+
+프레임웍은 서버상에 실제 존재하는 파일을 실행하는 것이 아니라 URI 요청을 ROUTE의 분석에 의해 사용자 컨트롤러 클레스의 액션 메소드를 실행하여 동작시키므로 웹서버가 자체적으로 보여주는 에러페이지들을 사용할수 없고, 제공되는 에러 처리 컨트롤러를 사용하거나 확장하여 에러페이지를 작성하여야 합니다.
+
