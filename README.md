@@ -64,13 +64,13 @@ $param1 = $this->getSegment(2); // field
 $param2 = $this->getSegment(3); // date 
 $param3 = $this->getSegment(4); // sort 
 $param4 = $this->getSegment(5); // desc 
-``` 
+  ``` 
 
 
 ### Case #2
-모듈 폴터안 클래스 파일의 index메소드를 실행하는 방식으로 구현할수 있는 구조로 URL은 아래와 같이 /module/controller에 매핑됩니다. 
+모듈 폴더안 클래스 파일의 index메소드를 기본으로 실행하는 구조로 URL은 아래와 같이 /module/controller에 매핑됩니다. 
 
-basedir을 application로 설정합니다. Case #1과는 달리 application가 모듈네임이 아니라 단순한 폴더명이 되었으므로 클래스명에서도 "application_"는 필요없습니다. 
+basedir을 application로 설정하면 Case #1과는 달리 application가 모듈네임이 아니라 폴더명이 되었으므로 클래스명에서도 "application_"는 필요없습니다. 
 
 각각의 컨트롤러 클래스의 index 메소드(action 기본 지정)를 자동 실행하므로 클래스내에 반드시 존재해야합니다. 
 ```php
@@ -117,10 +117,7 @@ $param1 = $this->getSegment(2); // field
 $param2 = $this->getSegment(3); // date 
 $param3 = $this->getSegment(4); // sort 
 $param4 = $this->getSegment(5); // desc 
-``` 
-
-
-
+  ``` 
 
 
 
@@ -167,7 +164,7 @@ $router = new router(array(
   ```php
 $sequence = $this->getQeury("sequence"); // 321 
 $param1 = $this->getSegment(1); // 321 
-``` 
+  ``` 
 
 `GET http://example.com/blog/list/47` 
   - 파일위치  :  /example/html/application/blog/list.php  
@@ -178,7 +175,7 @@ $param1 = $this->getSegment(1); // 321
   ```php
 $pagenum = $this->getQeury("pagenum"); // 47 
 $param1 = $this->getSegment(2); // 47 
-``` 
+  ``` 
 
 
 ### Case #5
@@ -211,7 +208,7 @@ $param1 = $this->getSegment(2); // field
 $param2 = $this->getSegment(3); // date 
 $param3 = $this->getSegment(4); // sort 
 $param4 = $this->getSegment(5); // desc 
-``` 
+  ``` 
 
 
 
@@ -241,4 +238,4 @@ $param1 = $this->getSegment(2); // field
 $param2 = $this->getSegment(3); // date 
 $param3 = $this->getSegment(4); // sort 
 $param4 = $this->getSegment(5); // desc 
-``` 
+  ``` 
