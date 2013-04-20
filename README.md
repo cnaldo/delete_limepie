@@ -294,7 +294,7 @@ class application_blog extends controller {
 // my_controller.php
 
 class my_controller extends controller {
-     public $user = array();    // 접속자의 회원정보
+    public $user = array();    // 접속자의 회원정보
 
     function __construct() {   // 생성자를 사용한다면
         parent::__construct(); // 반듯이 부모 컨트롤러 클래스의 생성자를 호출해야함 
@@ -327,63 +327,63 @@ class application_blog extends my_controller {
 URI로 매개변수를 얻는 방법은 3가지가 있습니다. 
 
 
-####※ segment
+1. segment
 
-segment 는 URI에서 0부터 1씩증가하는 형태로 순서대로 접근하여 매개변수를 얻습니다. 
+  segment 는 URI에서 0부터 1씩증가하는 형태로 순서대로 접근하여 매개변수를 얻습니다. 
 
-`GET http://example/blog/list/date/desc` 
+  `GET http://example/blog/list/date/desc` 
 
-```php
-<?php
+  ```php
+  <?php
 
-class application_blog extends controller {
-    function get_list() {
-        echo $this->getSegment(0); // blog
-        echo $this->getSegment(1); // list
-        echo $this->getSegment(2); // date
-        echo $this->getSegment(3); // desc
-    }
-} 
-```
+  class application_blog extends controller {
+        function get_list() {
+            echo $this->getSegment(0); // blog
+            echo $this->getSegment(1); // list
+            echo $this->getSegment(2); // date
+            echo $this->getSegment(3); // desc
+        }
+  } 
+  ```
 
-####※ parameter
+2. parameter
 
-parameter 는 ROUTE에서 module, controller, action등에 매칭된 나머지로 짝을 맺어 매개변수를 얻습니다. 
+  parameter 는 ROUTE에서 module, controller, action등에 매칭된 나머지로 짝을 맺어 매개변수를 얻습니다. 
 
-`GET http://example/blog/list/field/date/sort/desc` 
+  `GET http://example/blog/list/field/date/sort/desc` 
 
-```php
-<?php
+  ```php
+  <?php
 
-class application_blog extends controller {
-    function get_list() {
-        // blog는 controller
-        // list는 action
-        echo $this->getParam("field"); // date
-        echo $this->getParam("sort");  // desc
-    }
-}
-```
+  class application_blog extends controller {
+        function get_list() {
+            // blog는 controller
+            // list는 action
+            echo $this->getParam("field"); // date
+            echo $this->getParam("sort");  // desc
+        }
+  }
+  ```
 
 
-####※ argument
+3. argument
 
-메소드의 argument 로 부터 매개변수를 얻습니다. 
+  메소드의 argument 로 부터 매개변수를 얻습니다. 
 
-`GET http://example/blog/list/date/desc` 
+  `GET http://example/blog/list/date/desc` 
 
-```php
-<?php
+  ```php
+  <?php
 
-class application_blog extends controller {
-    function get_list($controller, $action, $field, $sort) {
-        echo $controller; // blog
-        echo $action;     // list
-        echo $field;      // date
-        echo $sort;       // desc
-    }
-}
-```
+  class application_blog extends controller {
+        function get_list($controller, $action, $field, $sort) {
+            echo $controller; // blog
+            echo $action;     // list
+            echo $field;      // date
+            echo $sort;       // desc
+        }
+  }
+  ```
 
 
 ### 에러 처리 컨트롤러
