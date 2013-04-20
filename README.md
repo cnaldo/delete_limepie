@@ -544,26 +544,22 @@ $tpl->print_('index');
 
   루프의 전체 반복 횟수, 즉 루프로 할당된 배열의 크기입니다.
 
-  루프안 에서 사용할때는 배열아이디인 fruit에서 꺼내어 fruit.size_로 사용할수 있고,
-  루프밖 에서 사용할때는 배열아이디인 fruit에서 꺼내어 fruit.size_와 같이 사용해야합니다. 
+  배열아이디인 fruit에서 꺼내어 fruit.size_와 같이 사용해야합니다. row.size_ 가 아닌것에 주의해야 합니다. 
 
   ```
   <!-- index.tpl -->
 
   {@row=fruit}
-     {row.index_} : {row.size_} : {fruit.size_}
+     {row.index_} : {fruit.size_}
   {/} 
-  num of fruit : {fruit.size_} 
   ```
 
   ```
   <!-- output -->
 
-  0 : 3 : 3
-  1 : 3 : 3
-  2 : 3 : 3
-
-  num of fruit : 3 
+  0 : 3
+  1 : 3
+  2 : 3
   ```
 
 5. last_
