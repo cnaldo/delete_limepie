@@ -474,6 +474,7 @@ PHP 코드가 있습니다.
 6. 출력문 `{=expression}` 
 
   =는 템플릿 변수 또는 표현식의 값을 출력하며 `echo $expression;` 로 변환. 
+  print_r과 같이 함수 내에서 print하고 boolean값을 리턴하는 경우 "="를 생략해야함을 주의하세요.
 
 
 
