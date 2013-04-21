@@ -30,44 +30,43 @@ $router = new router(array(
 )); 
 ```
 
-`GET http://example/`
+- `GET http://example/`
   - 파일위치  :  /example/html/application/index.php  
   - 클래스명  :  application_index  
   - 매소드명  :  index or get_index  
 
-`GET http://example/news`   
+- `GET http://example/news`   
   - 파일위치  :  /example/html/application/news.php    
   - 클래스명  :  application_news    
   - 매소드명  :  index or get_index    
 
-`GET http://example/blog/list`  
+- `GET http://example/blog/list`  
   - 파일위치  :  /example/html/application/blog.php  
   - 클래스명  :  application_blog  
   - 매소드명  :  list or get_list  
 
-`POST http://example/blog/list`
+- `POST http://example/blog/list`
   - 파일위치  :  /example/html/application/blog.php  
   - 클래스명  :  application_blog  
   - 매소드명  :  list or post_list  
 
-`GET http://example/blog/list/field/date/sort/desc`
+- `GET http://example/blog/list/field/date/sort/desc`
   - 파일위치  :  /example/html/application/blog.php  
   - 클래스명  :  application_blog  
   - 매소드명  :  list or get_list  
-  - 매개변수  :   
-
-  ```php
-  <?php
-
-  $field  = $this->getParam("field"); // date
-  $sort   = $this->getParam("sort");    // desc 
-  $param0 = $this->getSegment(0); // blog 
-  $param1 = $this->getSegment(1); // list 
-  $param1 = $this->getSegment(2); // field 
-  $param2 = $this->getSegment(3); // date 
-  $param3 = $this->getSegment(4); // sort 
-  $param4 = $this->getSegment(5); // desc 
-  ``` 
+  - 매개변수  :
+        ```php
+        <?php
+    
+        $field  = $this->getParam("field"); // date
+        $sort   = $this->getParam("sort");    // desc 
+        $param0 = $this->getSegment(0); // blog 
+        $param1 = $this->getSegment(1); // list 
+        $param1 = $this->getSegment(2); // field 
+        $param2 = $this->getSegment(3); // date 
+        $param3 = $this->getSegment(4); // sort 
+        $param4 = $this->getSegment(5); // desc 
+        ``` 
 
 
 ### Case #2
@@ -87,44 +86,43 @@ $router = new router(array(
 )); 
 ```
 
-`GET http://example/`
+- `GET http://example/`
   - 파일위치  :  /example/html/application/index/index.php  
   - 클래스명  :  index_index  
   - 매소드명  :  index or get_index  
 
-`GET http://example/news` 
+- `GET http://example/news` 
   - 파일위치  :  /example/html/application/news.php  
   - 클래스명  :  news_index  
   - 매소드명  :  index or get_index  
 
-`GET http://example/blog/list` 
+- `GET http://example/blog/list` 
   - 파일위치  :  /example/html/application/blog/list.php  
   - 클래스명  :  blog_list  
   - 매소드명  :  index or get_index  
 
-`POST http://example/blog/list` 
+- `POST http://example/blog/list` 
   - 파일위치  :  /example/html/application/blog/list.php  
   - 클래스명  :  blog_list  
   - 매소드명  :  index or post_index  
 
-`GET http://example/blog/list/field/date/sort/desc` 
+- `GET http://example/blog/list/field/date/sort/desc` 
   - 파일위치  :  /example/html/application/blog/list.php  
   - 클래스명  :  blog_list  
   - 매소드명  :  index or get_index  
   - 매개변수  :  
-
-  ```php
-  <?php
-
-  $field  = $this->getParam("field"); // date 
-  $sort   = $this->getParam("sort");    // desc 
-  $param0 = $this->getSegment(0); // blog 
-  $param1 = $this->getSegment(1); // list 
-  $param1 = $this->getSegment(2); // field 
-  $param2 = $this->getSegment(3); // date 
-  $param3 = $this->getSegment(4); // sort 
-  $param4 = $this->getSegment(5); // desc 
-  ``` 
+        ```php
+        <?php
+    
+        $field  = $this->getParam("field"); // date 
+        $sort   = $this->getParam("sort");    // desc 
+        $param0 = $this->getSegment(0); // blog 
+        $param1 = $this->getSegment(1); // list 
+        $param1 = $this->getSegment(2); // field 
+        $param2 = $this->getSegment(3); // date 
+        $param3 = $this->getSegment(4); // sort 
+        $param4 = $this->getSegment(5); // desc 
+        ``` 
 
 
 
@@ -166,31 +164,29 @@ $router = new router(array(
 )); 
 ```
 
-`GET http://example.com/blog/321` 
+- `GET http://example.com/blog/321` 
   - 파일위치  :  /example/html/application/blog/read.php  
   - 클래스명  :  blog_read  
   - 매소드명  :  index or get_index  
   - 매개변수  :  
-  
-  ```php
-  <?php
+        ```php
+        <?php
+    
+        $sequence = $this->getParam("sequence"); // 321 
+        $param1   = $this->getSegment(1); // 321 
+        ``` 
 
-  $sequence = $this->getParam("sequence"); // 321 
-  $param1   = $this->getSegment(1); // 321 
-  ``` 
-
-`GET http://example.com/blog/list/47` 
+- `GET http://example.com/blog/list/47` 
   - 파일위치  :  /example/html/application/blog/list.php  
   - 클래스명  :  blog_list  
   - 매소드명  :  index or get_index  
   - 매개변수  :  
-
-  ```php
-  <?php
-
-  $pagenum = $this->getParam("pagenum"); // 47 
-  $param1  = $this->getSegment(2); // 47 
-  ``` 
+        ```php
+        <?php
+    
+        $pagenum = $this->getParam("pagenum"); // 47 
+        $param1  = $this->getSegment(2); // 47 
+        ``` 
 
 
 ### Case #5
@@ -210,24 +206,23 @@ $router = new router(array(
 )); 
 ```
 
-`GET http://example/blog/list/field/date/sort/desc` 
+- `GET http://example/blog/list/field/date/sort/desc` 
   - 파일위치  :  /example/html/application/blog.php  
   - 클래스명  :  application_blog  
   - 매소드명  :  list or get_list  
   - 매개변수  :  
-  
-  ```php
-  <?php
-
-  $field  = $this->getParam("field"); // date 
-  $sort   = $this->getParam("sort");    // desc 
-  $param0 = $this->getSegment(0); // blog 
-  $param1 = $this->getSegment(1); // list 
-  $param1 = $this->getSegment(2); // field 
-  $param2 = $this->getSegment(3); // date 
-  $param3 = $this->getSegment(4); // sort 
-  $param4 = $this->getSegment(5); // desc 
-  ``` 
+        ```php
+        <?php
+    
+        $field  = $this->getParam("field"); // date 
+        $sort   = $this->getParam("sort");    // desc 
+        $param0 = $this->getSegment(0); // blog 
+        $param1 = $this->getSegment(1); // list 
+        $param1 = $this->getSegment(2); // field 
+        $param2 = $this->getSegment(3); // date 
+        $param3 = $this->getSegment(4); // sort 
+        $param4 = $this->getSegment(5); // desc 
+        ``` 
 
 
 
@@ -244,25 +239,24 @@ $router = new router(array(
 )); 
 ```
 
-`GET http://example/blog/list/field/date/sort/desc` 
+- `GET http://example/blog/list/field/date/sort/desc` 
   - 파일위치  :  /example/html/application/blog.php  
   - 클래스명  :  application_blog  
   - 매소드명  :  list or get_list  
   - 매개변수  :  
-
-  ```php
-  <?php
-
-  $field  = $this->getParam("field"); // null 
-  $sort   = $this->getParam("sort");    // null 
-  $param0 = $this->getSegment(0); // blog 
-  $param1 = $this->getSegment(1); // list 
-  $param1 = $this->getSegment(2); // field 
-  $param2 = $this->getSegment(3); // date 
-  $param3 = $this->getSegment(4); // sort 
-  $param4 = $this->getSegment(5); // desc 
-  ``` 
-
+        ```php
+        <?php
+    
+        $field  = $this->getParam("field"); // null 
+        $sort   = $this->getParam("sort");    // null 
+        $param0 = $this->getSegment(0); // blog 
+        $param1 = $this->getSegment(1); // list 
+        $param1 = $this->getSegment(2); // field 
+        $param2 = $this->getSegment(3); // date 
+        $param3 = $this->getSegment(4); // sort 
+        $param4 = $this->getSegment(5); // desc 
+        ``` 
+    
 
 
 
