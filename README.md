@@ -119,13 +119,13 @@ $router = new router(array(
         <?php
     
         $field  = $this->getParam("field"); // date 
-        $sort   = $this->getParam("sort");    // desc 
-        $param0 = $this->getSegment(0); // blog 
-        $param1 = $this->getSegment(1); // list 
-        $param1 = $this->getSegment(2); // field 
-        $param2 = $this->getSegment(3); // date 
-        $param3 = $this->getSegment(4); // sort 
-        $param4 = $this->getSegment(5); // desc 
+        $sort   = $this->getParam("sort");  // desc 
+        $param0 = $this->getSegment(0);     // blog 
+        $param1 = $this->getSegment(1);     // list 
+        $param1 = $this->getSegment(2);     // field 
+        $param2 = $this->getSegment(3);     // date 
+        $param3 = $this->getSegment(4);     // sort 
+        $param4 = $this->getSegment(5);     // desc 
         ``` 
 
 
@@ -182,7 +182,7 @@ $router = new router(array(
         <?php
     
         $sequence = $this->getParam("sequence"); // 321 
-        $param1   = $this->getSegment(1); // 321 
+        $param1   = $this->getSegment(1);        // 321 
         ``` 
 
 - `GET http://example.com/blog/list/47` 
@@ -194,7 +194,7 @@ $router = new router(array(
         <?php
     
         $pagenum = $this->getParam("pagenum"); // 47 
-        $param1  = $this->getSegment(2); // 47 
+        $param1  = $this->getSegment(2);       // 47 
         ``` 
 
 
@@ -224,13 +224,13 @@ $router = new router(array(
         <?php
     
         $field  = $this->getParam("field"); // date 
-        $sort   = $this->getParam("sort");    // desc 
-        $param0 = $this->getSegment(0); // blog 
-        $param1 = $this->getSegment(1); // list 
-        $param1 = $this->getSegment(2); // field 
-        $param2 = $this->getSegment(3); // date 
-        $param3 = $this->getSegment(4); // sort 
-        $param4 = $this->getSegment(5); // desc 
+        $sort   = $this->getParam("sort");  // desc 
+        $param0 = $this->getSegment(0);     // blog 
+        $param1 = $this->getSegment(1);     // list 
+        $param1 = $this->getSegment(2);     // field 
+        $param2 = $this->getSegment(3);     // date 
+        $param3 = $this->getSegment(4);     // sort 
+        $param4 = $this->getSegment(5);     // desc 
         ``` 
 
 
@@ -258,13 +258,13 @@ $router = new router(array(
         <?php
     
         $field  = $this->getParam("field"); // null 
-        $sort   = $this->getParam("sort");    // null 
-        $param0 = $this->getSegment(0); // blog 
-        $param1 = $this->getSegment(1); // list 
-        $param1 = $this->getSegment(2); // field 
-        $param2 = $this->getSegment(3); // date 
-        $param3 = $this->getSegment(4); // sort 
-        $param4 = $this->getSegment(5); // desc 
+        $sort   = $this->getParam("sort");  // null 
+        $param0 = $this->getSegment(0);     // blog 
+        $param1 = $this->getSegment(1);     // list 
+        $param1 = $this->getSegment(2);     // field 
+        $param2 = $this->getSegment(3);     // date 
+        $param3 = $this->getSegment(4);     // sort 
+        $param4 = $this->getSegment(5);     // desc 
         ``` 
     
 
