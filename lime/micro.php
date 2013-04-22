@@ -2,7 +2,8 @@
 
 namespace lime;
 
-class micro {
+class micro
+{
 	private $pathinfo; 
 	private $segment;
 	private $seg;
@@ -13,6 +14,10 @@ class micro {
 		$this->pathinfo	= $this->_getPathinfo();
 		$this->segment	= explode('/',$this->pathinfo);
 	}
+	public function bootstrap($closure) {
+		$closure = \Closure::bind($closure, $this);
+		return $closure();;
+	}
 	private function _getPathinfo(){
 		return (true === isset($_SERVER['PATH_INFO']) ? trim($_SERVER['PATH_INFO'],'/') : '');
 	}
@@ -22,10 +27,10 @@ class micro {
 	public function error($error_closure) {
 		$this->error = $error_closure;
 	}
-	public function seg($key) {
+	public function getQuery($key) {
 		return isset($this->seg[$key]) ? $this->seg[$key] : '';
 	}
-	public function raw($i) {
+	public function getSegment($i) {
 		return isset($this->segment[$i]) ? $this->segment[$i] : '';
 	}
 	public function dispatch() {
@@ -50,13 +55,14 @@ class micro {
 				foreach($tmp as $k2 => $v2) {
 					$this->seg[$v2->name] = isset($match[$k2]) ? $match[$k2] : '';
 				}
-
-				$closure = \Closure::bind($closure, $this);;
+//				$closure->bind($closure, $this);
+				$closure = \Closure::bind($closure, $this);
 				return call_user_func_array($closure, $match);
 			}
 		}
 		$closure = $this->error;
 		$closure = \Closure::bind($closure, $this);;
+		
 		return call_user_func_array($closure, $match);
 	}
 }

@@ -9,8 +9,8 @@
 	<title>~~</title>
 	
 	
-	<link href="<?php echo BASE_PATH;?>apps/layout/css/reset.css?<?php echo $ver;?>" rel="stylesheet" type="text/css" media="all" />
-	<link href="<?php echo BASE_PATH;?>apps/layout/css/blue.css?<?php echo $ver;?>" rel="stylesheet" type="text/css" />
+	<link href="<?php echo BASE_PATH;?>layout/css/reset.css?<?php echo $ver;?>" rel="stylesheet" type="text/css" media="all" />
+	<link href="<?php echo BASE_PATH;?>layout/css/blue.css?<?php echo $ver;?>" rel="stylesheet" type="text/css" />
 	<link href="<?php echo BASE_PATH;?>vendor/css/font-awesome.css" rel="stylesheet" />
 </head>
 <body>

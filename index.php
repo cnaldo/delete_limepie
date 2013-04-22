@@ -3,40 +3,6 @@
 require_once("lime/bootstrap.php");
 
 
-
-$micro = new apps_micro();
-
-$micro->route('GET', '', function() {
-	$this->content('read.tpl');
-	return $this->display();
-});
-
-$micro->route('GET', '/year/([0-9]+)', function($year = '2013', $a=0, $b='') {
-	$micro->seg('');
-	return $year + 2;
-});
-
-$micro->route('GET', '/year2/([0-9]+)/([a-z0-9]+)/([a-z0-9]+)', function($year2 = '2013', $a=0, $b='') {
-	$micro->seg('');
-	return $year2 + 4;
-});
-
-$micro->route('GET', '/year2/([0-9]+)/([a-z0-9]+)/([a-z0-9]+)/?(.*)', function($year2 = '2013', $a, $b) {
-	pr($this);
-	//secho $param;
-	echo $this->seg('c');
-	echo $this->raw(0);
-	return $year2 + 4;
-});
-
-$micro->error(function() {
-	echo 'not found';
-});
-
-echo $micro->dispatch();
-
-/*
-exit();
 try {
 	$router = new \lime\router(array(
 		'(.*)' => array(
@@ -59,7 +25,6 @@ try {
 	pr($e);
 }
 
-*/
 
 /*
 //exit();

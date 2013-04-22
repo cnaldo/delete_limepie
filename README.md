@@ -144,7 +144,6 @@ $router = new router(array(
 $router = new router(array(
      '(?:([^/]+)/?)?(?:([^/]+)/?)?(?:([^/]+)/?)?(.*)' => array(
          ':module/:controller/:action/',
-         '$1/$2/$3/$4/',
      )
 )); 
 ```
@@ -163,12 +162,10 @@ http://example.com/blog/list/47 와 같이 두번째 path가 list이고 세번�
 $router = new router(array(
      '(blog|board)/(\d+)' => array( // read
          ':module/:sequence/',
-         '$1/$2',
          array(':controller' => 'read')
      ),
      '(blog|board)/(list)?(:?/([\d]+))' => array( // list or list paging
          ':module/:controller/:pagenum',
-         '$1/$2/$3',
      )
 )); 
 ```
@@ -210,7 +207,6 @@ httpd://example.com/blog/339/field/date/sort/desc 는 아래의 라우터에 매
 $router = new router(array(
      '(blog|board)/(\d+)?(.*)' => array( // read
          ':module/:controller/',
-         '$1/$2/$3',
      ),
 )); 
 ```
@@ -244,7 +240,6 @@ $router = new router(array(
 $router = new router(array(
      '(blog|board)/(\d+)' => array( // read
          ':module/:controller/',
-         '$1/$2',
      ),
 )); 
 ```

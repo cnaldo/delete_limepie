@@ -2,7 +2,7 @@
 
 namespace lime;
 
-class Controller 
+class Controller
 {
 	public		$framework;
 	private		$route;

@@ -1,17 +1,18 @@
-<?php
+<?php 
 
-class apps_micro extends \lime\micro 
+require_once("../lime/bootstrap.php");
+
+class micro_apps extends \lime\micro
 {
 	public $ver = '100';
-	public $layout = 'blue.tpl';
 	public function __construct() {
 		parent::__construct();
 		\lime\Language::load('main');	
 	}
 	public function display($print = false) {
 		$tpl = new \lime\tpl;
-		$tpl->tpl_path		= APPS_FOLDER;
-		$tpl->skin			= 'order/view/';
+		$tpl->tpl_path		= '';
+		$tpl->skin			= 'view/';
 		$tpl->prefilter		= 'adjustPath & css,js,gif,jpg,jpeg,png,swf|fixHtml';
 		$tpl->environment	= ENVIRONMENT;
 
@@ -54,4 +55,34 @@ class apps_micro extends \lime\micro
 	public function content($arg = array(), $val = null) {
 		return $this->_define('content', $arg, $val);
 	}
+}
+
+try {
+
+
+	$micro = new micro_apps();
+	$micro->bootstrap(function() {
+		$this->layout = 'blue.tpl';
+	});
+	//phpinfo();
+
+	$micro->route('GET', '/year2/([0-9]+)/([a-z0-9]+)/([a-z0-9]+)/?(.*)', function($year2 = '2013', $a, $b) {
+		//pr($this);
+		//secho $param;
+
+		pr( $this->getQuery('c') );
+		pr ( $this->getSegment(0) );
+		return $year2 + 4;
+	});
+
+	$micro->error(function() {
+		echo 'not found';
+	});
+	echo $micro->dispatch();
+
+} catch(\lime\TplException $e) {
+	echo 'test';
+	pr($e);
+} catch(\Exception $e) {
+	pr($e);
 }
