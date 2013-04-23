@@ -196,8 +196,8 @@ $router = new \lime\router(array(
 ### Case #5
 
 httpd://example.com/blog/339/field/date/sort/desc 는 아래의 라우터에 매칭됩니다.
-규칙의 마지막에 "(?:/(?P<parameter>.*))?"를 넣어야 "field/date/sort/desc"를 재처리할 대상으로 판단하여 
-매개변수 $field = "date"; $sort = "desc";를 얻을수 있습니다. 
+규칙의 마지막에 `(?:/(?P<parameter>.*))?`를 넣어야 "field/date/sort/desc"를 재처리할 대상으로 판단하여 
+매개변수 `$field = "date"; $sort = "desc";`를 얻을수 있습니다. 
 
 ```php
 <?php
@@ -229,7 +229,7 @@ $router = new \lime\router(array(
 
 
 
-아래의 예에서처럼 parameter 규칙 '(?:/(?P<parameter>.*))?'을 정해주지 않았을 경우
+아래의 예에서처럼 parameter 규칙 `(?:/(?P<parameter>.*))?`을 정해주지 않았을 경우
 'field/date/sort/desc'등 나머지를 처리할 룰이 없으므로 매개변수 parameter의 값이 null이 됩니다. 
 
 ```php
