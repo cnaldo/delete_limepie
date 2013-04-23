@@ -23,41 +23,41 @@ URI을 Controller 클래스의 메서드에 연결 시키는 역할을 합니다
 Named subpattern 기반의 정규표현식을 사용합니다.
 
 ### Case #1
-application 폴더 안에 클래스 파일 단위로 기능을 구현하여 사용할수 있는 구조로,
+apps 폴더 안에 클래스 파일 단위로 기능을 구현하여 사용할수 있는 구조로,
 URI은 아래와 같이 /controller/action에 매핑됩니다.
 ```php
 <?php
 
 $router = new router(array(
 	'(?P<controller>[^/]+)?(?:/(?P<action>[^/]+))?(?:/(?P<parameter>.*))?' => array(
-		'module' => 'application'
+		'module' => 'apps'
 	)
 )); 
 ```
 
 - `GET http://example/`
-  - 파일위치  :  /example/html/application/index.php  
-  - 클래스명  :  application_index  
+  - 파일위치  :  /example/html/apps/index.php  
+  - 클래스명  :  apps_index  
   - 매소드명  :  index or get_index  
 
 - `GET http://example/news`   
-  - 파일위치  :  /example/html/application/news.php    
-  - 클래스명  :  application_news    
+  - 파일위치  :  /example/html/apps/news.php    
+  - 클래스명  :  apps_news    
   - 매소드명  :  index or get_index    
 
 - `GET http://example/blog/list`  
-  - 파일위치  :  /example/html/application/blog.php  
-  - 클래스명  :  application_blog  
+  - 파일위치  :  /example/html/apps/blog.php  
+  - 클래스명  :  apps_blog  
   - 매소드명  :  list or get_list  
 
 - `POST http://example/blog/list`
-  - 파일위치  :  /example/html/application/blog.php  
-  - 클래스명  :  application_blog  
+  - 파일위치  :  /example/html/apps/blog.php  
+  - 클래스명  :  apps_blog  
   - 매소드명  :  list or post_list  
 
 - `GET http://example/blog/list/field/date/sort/desc`
-  - 파일위치  :  /example/html/application/blog.php  
-  - 클래스명  :  application_blog  
+  - 파일위치  :  /example/html/apps/blog.php  
+  - 클래스명  :  apps_blog  
   - 매소드명  :  list or get_list  
   - 매개변수  :
         ```php
@@ -77,8 +77,8 @@ $router = new router(array(
 ### Case #2
 모듈 폴더안 클래스 파일의 index메소드를 기본으로 실행하는 구조로 URI은 아래와 같이 /module/controller에 매핑됩니다. 
 
-basedir을 application로 설정하면 Case #1과는 달리 application가 모듈네임이 아니라 폴더명이 되었으므로
-클래스명에서도 "application_"는 필요없습니다. 
+basedir을 apps로 설정하면 Case #1과는 달리 apps가 모듈네임이 아니라 폴더명이 되었으므로
+클래스명에서도 "apps_"는 필요없습니다. 
 
 각각의 컨트롤러 클래스의 index 메소드(action 기본 지정)를 자동 실행하므로 클래스내에 반드시 존재해야합니다. 
 ```php
@@ -86,33 +86,33 @@ basedir을 application로 설정하면 Case #1과는 달리 application가 모�
 
 $router = new router(array(
 	'(?P<module>[^/]+)?(?:/(?P<controller>[^/]+))?(?:/(?P<parameter>.*))?' => array(
-		'basedir' => 'application', 'action' => 'index'
+		'basedir' => 'apps', 'action' => 'index'
 	)
 )); 
 ```
 
 - `GET http://example/`
-  - 파일위치  :  /example/html/application/index/index.php  
+  - 파일위치  :  /example/html/apps/index/index.php  
   - 클래스명  :  index_index  
   - 매소드명  :  index or get_index  
 
 - `GET http://example/news` 
-  - 파일위치  :  /example/html/application/news.php  
+  - 파일위치  :  /example/html/apps/news.php  
   - 클래스명  :  news_index  
   - 매소드명  :  index or get_index  
 
 - `GET http://example/blog/list` 
-  - 파일위치  :  /example/html/application/blog/list.php  
+  - 파일위치  :  /example/html/apps/blog/list.php  
   - 클래스명  :  blog_list  
   - 매소드명  :  index or get_index  
 
 - `POST http://example/blog/list` 
-  - 파일위치  :  /example/html/application/blog/list.php  
+  - 파일위치  :  /example/html/apps/blog/list.php  
   - 클래스명  :  blog_list  
   - 매소드명  :  index or post_index  
 
 - `GET http://example/blog/list/field/date/sort/desc` 
-  - 파일위치  :  /example/html/application/blog/list.php  
+  - 파일위치  :  /example/html/apps/blog/list.php  
   - 클래스명  :  blog_list  
   - 매소드명  :  index or get_index  
   - 매개변수  :  
@@ -169,7 +169,7 @@ $router = new \lime\router(array(
 ```
 
 - `GET http://example.com/blog/321` 
-  - 파일위치  :  /example/html/application/blog/read.php  
+  - 파일위치  :  /example/html/apps/blog/read.php  
   - 클래스명  :  blog_read  
   - 매소드명  :  index or get_index  
   - 매개변수  :  
@@ -181,7 +181,7 @@ $router = new \lime\router(array(
         ``` 
 
 - `GET http://example.com/blog/list/47` 
-  - 파일위치  :  /example/html/application/blog/list.php  
+  - 파일위치  :  /example/html/apps/blog/list.php  
   - 클래스명  :  blog_list  
   - 매소드명  :  index or get_index  
   - 매개변수  :  
@@ -210,8 +210,8 @@ $router = new \lime\router(array(
 ```
 
 - `GET http://example/blog/list/field/date/sort/desc` 
-  - 파일위치  :  /example/html/application/blog.php  
-  - 클래스명  :  application_blog  
+  - 파일위치  :  /example/html/apps/blog.php  
+  - 클래스명  :  apps_blog  
   - 매소드명  :  list or get_list  
   - 매개변수  :  
         ```php
@@ -243,8 +243,8 @@ $router = new \lime\router(array(
 ```
 
 - `GET http://example/blog/list/field/date/sort/desc` 
-  - 파일위치  :  /example/html/application/blog.php  
-  - 클래스명  :  application_blog  
+  - 파일위치  :  /example/html/apps/blog.php  
+  - 클래스명  :  apps_blog  
   - 매소드명  :  list or get_list  
   - 매개변수  :  
         ```php
@@ -275,9 +275,9 @@ URI는 ROUTE를 거쳐 사용자 컨트롤러 클레스의 액션 메소드를 �
 
 ```php
 <?php
-// application_blog.php
+// apps_blog.php
 
-class application_blog extends controller {
+class apps_blog extends controller {
      function get_list() {
          echo "Hello World!";
      }
@@ -310,9 +310,9 @@ class my_controller extends controller {
 
 ```php
 <?php
-// application_blog.php
+// apps_blog.php
 
-class application_blog extends my_controller {
+class apps_blog extends my_controller {
      function get_list() {
          echo $this->user." Hello World!";
      }
@@ -335,7 +335,7 @@ URI로 매개변수를 얻는 방법은 3가지가 있습니다.
   ```php
   <?php
 
-  class application_blog extends controller {
+  class apps_blog extends controller {
         function get_list() {
             echo $this->getSegment(0); // blog
             echo $this->getSegment(1); // list
@@ -354,7 +354,7 @@ URI로 매개변수를 얻는 방법은 3가지가 있습니다.
   ```php
   <?php
 
-  class application_blog extends controller {
+  class apps_blog extends controller {
         function get_list() {
             // blog는 controller
             // list는 action
@@ -374,7 +374,7 @@ URI로 매개변수를 얻는 방법은 3가지가 있습니다.
   ```php
   <?php
 
-  class application_blog extends controller {
+  class apps_blog extends controller {
         function get_list($controller, $action, $field, $sort) {
             echo $controller; // blog
             echo $action;     // list
