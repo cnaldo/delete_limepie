@@ -26,10 +26,9 @@ URL은 아래와 같이 /controller/action에 매핑됩니다.
 <?php
 
 $router = new router(array(
-  '(.*)' => array(
-    ':controller/:action',
-    array('module' => 'application') // 기본 지정
-  )
+	'(?P<controller>[^/]+)?(?:/(?P<action>[^/]+))?(?:/(?P<parameter>.*))?' => array(
+		'module' => 'application'
+	)
 )); 
 ```
 
@@ -83,10 +82,9 @@ basedir을 application로 설정하면 Case #1과는 달리 application가 모�
 <?php
 
 $router = new router(array(
-    '(.*)' => array(
-        ':module/:controller/',
-        array('basedir' => 'application', 'action' => 'index') // 기본 지정
-   )
+	'(?P<module>[^/]+)?(?:/(?P<controller>[^/]+))?(?:/(?P<parameter>.*))?' => array(
+		'basedir' => 'application', 'action' => 'index'
+	)
 )); 
 ```
 
@@ -141,11 +139,11 @@ $router = new router(array(
 ```php
 <?php
 
-$router = new router(array(
-     '(?:([^/]+)/?)?(?:([^/]+)/?)?(?:([^/]+)/?)?(.*)' => array(
-         ':module/:controller/:action/',
-     )
-)); 
+$router = new \lime\router(array(
+	'(?P<module>[^/]+)?(?:/(?P<controller>[^/]+))?(?:/(?P<action>[^/]+))?(?:/(?P<parameter>.*))?' => array(
+		//'basedir' => 'test'
+	)
+));
 ```
 
 
@@ -159,15 +157,12 @@ http://example.com/blog/list/47 와 같이 두번째 path가 list이고 세번�
 ```php
 <?php
 
-$router = new router(array(
-     '(blog|board)/(\d+)' => array( // read
-         ':module/:sequence/',
-         array(':controller' => 'read')
-     ),
-     '(blog|board)/(list)?(:?/([\d]+))' => array( // list or list paging
-         ':module/:controller/:pagenum',
-     )
-)); 
+$router = new \lime\router(array(
+	'(?P<module>blog|board)(?:/(?P<sequence>\d+))?(?:/(?P<parameter>.*))?' => array( // read
+		'controller' => 'read'
+	), 
+	'(?P<module>blog|board)(?:/(?P<controller>list))?(?:/(?P<pagenum>\d+))?(?:/(?P<parameter>.*))?' => array() // paging
+));
 ```
 
 - `GET http://example.com/blog/321` 
@@ -198,17 +193,17 @@ $router = new router(array(
 ### Case #5
 
 httpd://example.com/blog/339/field/date/sort/desc 는 아래의 라우터에 매칭됩니다.
-규칙의 마지막에 "(.*)"를 넣어야 "field/date/sort/desc"를 재처리할 대상으로 판단하여 
+규칙의 마지막에 "(?:/(?P<parameter>.*))?"를 넣어야 "field/date/sort/desc"를 재처리할 대상으로 판단하여 
 매개변수 $field = "date"; $sort = "desc";를 얻을수 있습니다. 
 
 ```php
 <?php
 
-$router = new router(array(
-     '(blog|board)/(\d+)?(.*)' => array( // read
-         ':module/:controller/',
-     ),
-)); 
+$router = new \lime\router(array(
+	'(?P<module>blog|board)(?:/(?P<sequence>\d+))?(?:/(?P<parameter>.*))?' => array( // read
+		'controller' => 'read'
+	), 
+));
 ```
 
 - `GET http://example/blog/list/field/date/sort/desc` 
@@ -231,17 +226,17 @@ $router = new router(array(
 
 
 
-아래의 예에서처럼 '(.*)'가 규칙의 마지막에 없을경우 :module 가 $1, :controller 가 $2에 대입되고 
+아래의 예에서처럼 parameter 규칙 '(?:/(?P<parameter>.*))?'을 정해주지 않았을 경우
 'field/date/sort/desc'등 나머지를 처리할 룰이 없으므로 매개변수 parameter의 값이 null이 됩니다. 
 
 ```php
 <?php
 
-$router = new router(array(
-     '(blog|board)/(\d+)' => array( // read
-         ':module/:controller/',
-     ),
-)); 
+$router = new \lime\router(array(
+	'(?P<module>blog|board)(?:/(?P<sequence>\d+))?' => array( // read
+		'controller' => 'read'
+	), 
+));
 ```
 
 - `GET http://example/blog/list/field/date/sort/desc` 
