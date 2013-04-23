@@ -19,7 +19,7 @@ MVC (Model-View-Controller) 디자인 패턴을 사용해,
 ROUTE
 --------
 
-URI을 Controller 클래스의 action 메서드에 연결 시키는 역할을 합니다. 
+URI을 Controller 클래스의 메서드에 연결 시키는 역할을 합니다. 
 Named subpattern 기반의 정규표현식을 사용합니다.
 
 ### Case #1
