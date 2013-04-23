@@ -33,7 +33,7 @@ class router {
 	}
 	public function setException($message = '', $method = 'error', $args = array()) {
 		$this->is_error = true;
-		$class			= $this->getError();
+		$class			= $this->getErrorController();
 		$tmpObj			= new $class;
 		$_args			= array(
 			'method'	=> $method,
@@ -93,6 +93,9 @@ class router {
 			return $this->parameter;
 		}
 		return true === isset($this->parameter[$key]) ? $this->parameter[$key] : null;
+	}
+	public function getParam($key=null) {
+		return $this->getParameter();
 	}
 	public function getSegment($key=false, $end = false) {
 		if(false === $key) {

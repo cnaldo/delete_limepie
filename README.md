@@ -19,12 +19,12 @@ MVC (Model-View-Controller) 디자인 패턴을 사용해,
 ROUTE
 --------
 
-URL을 Controller 클래스의 action 메서드에 연결 시키는 역할을 합니다. 
+URI을 Controller 클래스의 action 메서드에 연결 시키는 역할을 합니다. 
 Named subpatterns 기반의 정규표현식을 사용합니다.
 
 ### Case #1
 application 폴더 안에 클래스 파일 단위로 기능을 구현하여 사용할수 있는 구조로,
-URL은 아래와 같이 /controller/action에 매핑됩니다.
+URI은 아래와 같이 /controller/action에 매핑됩니다.
 ```php
 <?php
 
@@ -75,7 +75,7 @@ $router = new router(array(
 
 
 ### Case #2
-모듈 폴더안 클래스 파일의 index메소드를 기본으로 실행하는 구조로 URL은 아래와 같이 /module/controller에 매핑됩니다. 
+모듈 폴더안 클래스 파일의 index메소드를 기본으로 실행하는 구조로 URI은 아래와 같이 /module/controller에 매핑됩니다. 
 
 basedir을 application로 설정하면 Case #1과는 달리 application가 모듈네임이 아니라 폴더명이 되었으므로
 클래스명에서도 "application_"는 필요없습니다. 
@@ -133,7 +133,7 @@ $router = new router(array(
 
 ### Case #3
 
-좀더 복잡한 형태의 라우터 규칙을 만들어 보겠습니다. URL분리는 정규식을 이용하므로 정교한 규칙 설정이 가능합니다. 
+좀더 복잡한 형태의 라우터 규칙을 만들어 보겠습니다. URI분리는 정규식을 이용하므로 정교한 규칙 설정이 가능합니다. 
 
 아래는 http://example.com/param1/param2, http://example.com/param1/param2/param3/param4 등
 3개의 path를 가변적으로 인식할수 있는 규칙입니다.
