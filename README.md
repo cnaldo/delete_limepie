@@ -490,7 +490,7 @@ $tpl->print_('index');
   <!-- index.tpl -->
 
   {@row=fruit}
-     {row.index_}
+        {row.index_}
   {/} 
   ```
 
@@ -510,7 +510,7 @@ $tpl->print_('index');
   <!-- index.tpl -->
 
   {@row=fruit}
-     {row.key_}
+        {row.key_}
   {/} 
   ```
 
@@ -530,7 +530,7 @@ $tpl->print_('index');
   <!-- index.tpl -->
 
   {@row=fruit}
-     {row.value_}
+        {row.value_}
   {/} 
   ```
 
@@ -552,7 +552,7 @@ $tpl->print_('index');
   <!-- index.tpl -->
 
   {@row=fruit}
-     {row.index_} : {fruit.size_}
+        {row.index_} : {fruit.size_}
   {/} 
   ```
 
@@ -572,7 +572,7 @@ $tpl->print_('index');
   <!-- index.tpl -->
 
   {@row=fruit}
-     {row.index_}{?!row.last_} <br />{/}
+        {row.index_}{?!row.last_} <br />{/}
   {/} 
   ```
 
