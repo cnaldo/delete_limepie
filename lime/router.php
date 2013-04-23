@@ -95,7 +95,7 @@ class router {
 		return true === isset($this->parameter[$key]) ? $this->parameter[$key] : null;
 	}
 	public function getParam($key=null) {
-		return $this->getParameter();
+		return $this->getParameter($key);
 	}
 	public function getSegment($key=false, $end = false) {
 		if(false === $key) {
