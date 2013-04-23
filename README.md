@@ -19,6 +19,9 @@ MVC (Model-View-Controller) 디자인 패턴을 사용해,
 ROUTE
 --------
 
+URL을 Controller 클래스의 action 메서드에 연결 시키는 역할을 합니다. 
+Named subpatterns 기반의 정규표현식을 사용합니다.
+
 ### Case #1
 application 폴더 안에 클래스 파일 단위로 기능을 구현하여 사용할수 있는 구조로,
 URL은 아래와 같이 /controller/action에 매핑됩니다.
