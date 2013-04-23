@@ -155,7 +155,7 @@ $router = new \lime\router(array(
 아래의 예제는 blog 모듈과 board 모듈에 대해서 http://example.com/blog/321 등 두번째 path가 숫자일경우
 read로 간주하게 합니다. 
 http://example.com/blog/list/47 와 같이 두번째 path가 list이고 세번째 path가 숫자일 경우
-페이지 번호로 인식하게 합니다. (순차적으로 검사를 하므로 너무 많은 규칙을 넣는것은 좋지 않습니다.) 
+페이지 번호로 인식하게 합니다. (순차적으로 검사합니다.) 
 
 ```php
 <?php
@@ -277,7 +277,7 @@ URI는 ROUTE를 거쳐 사용자 컨트롤러 클레스의 액션 메소드를 �
 <?php
 // apps_blog.php
 
-class apps_blog extends controller {
+class apps_blog extends \lime\controller {
      function get_list() {
          echo "Hello World!";
      }
@@ -292,7 +292,7 @@ class apps_blog extends controller {
 <?php
 // my_controller.php
 
-class my_controller extends controller {
+class my_controller extends \lime\controller {
     public $user = array();    // 접속자의 회원정보
 
     function __construct() {   // 생성자를 사용한다면
@@ -335,7 +335,7 @@ URI로 매개변수를 얻는 방법은 3가지가 있습니다.
   ```php
   <?php
 
-  class apps_blog extends controller {
+  class apps_blog extends \lime\controller {
         function get_list() {
             echo $this->getSegment(0); // blog
             echo $this->getSegment(1); // list
@@ -354,7 +354,7 @@ URI로 매개변수를 얻는 방법은 3가지가 있습니다.
   ```php
   <?php
 
-  class apps_blog extends controller {
+  class apps_blog extends \lime\controller {
         function get_list() {
             // blog는 controller
             // list는 action
@@ -374,7 +374,7 @@ URI로 매개변수를 얻는 방법은 3가지가 있습니다.
   ```php
   <?php
 
-  class apps_blog extends controller {
+  class apps_blog extends \lime\controller {
         function get_list($controller, $action, $field, $sort) {
             echo $controller; // blog
             echo $action;     // list
