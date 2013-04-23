@@ -1,5 +1,12 @@
 <?php
 
+
+$string = '김이박/감사(오늘도/제대로걸림)/조치원/원주/상파울로(브라질/수도)'; 
+$data = preg_split('#(?=(?![^(]*\)))/#',$string); 
+echo '<pre>';
+print_r($data); 
+echo '</pre>';
+
 require_once("lime/bootstrap.php");
 
 try {
