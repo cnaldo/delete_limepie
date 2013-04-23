@@ -79,7 +79,7 @@ class router {
 	public function getAction() {
 		return $this->action;
 	}
-	public function setError($error) {
+	public function setErrorController($error) {
 		$this->error = $error;
 	}
 	public function getErrorController() {
@@ -116,7 +116,8 @@ class router {
 	public function route() {
 		if(false == is_array($this->route) || 0 == count($this->route)) {
 			$this->route = array(
-				'(?P<parameter>.*)' => array()
+				'(?P<module>[^/]+)?(?:/(?P<controller>[^/]+))?(?:/(?P<action>[^/]+))?(?:/(?P<parameter>.*))?' => array()
+				// '(?P<parameter>.*)' => array()
 			);
 		}
 		foreach($this->route as $rule => $default) {

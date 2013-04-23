@@ -9,7 +9,7 @@ try {
 			//'basedir' => 'test'
 		)
 	));
-	$router->setError('apps_error');
+	$router->setErrorController('apps_error');
 
 	$front = \lime\framework::getInstance();
 	$front->setRouter($router);
