@@ -20,23 +20,6 @@ try {
 	pr($e);
 }
 
-
-/*
-	$router = new \lime\router(array(
-		'(.*)' => array(
-			':module',
-			array( // default
-				'basedir'		=> 'apps'
-				, 'module'		=> 'welcome'
-				, 'controller'	=> 'run'
-				, 'action'		=> 'index'
-			)
-		)
-	));
-	$router->setError('apps_error');
-
-*/
-
 /*
 //exit();
 pr(readable_size(memory_get_peak_usage()));
