@@ -437,7 +437,7 @@ PHP 코드가 있습니다.
 
   @는 루프문의 시작을 나타내며,
   data가 리턴하는 배열의 요소수만큼 반복됩니다. 
-  `foreach($data as $key => $value) { ... }`로 변환. 
+  `foreach($data as $key => $row) { ... }`로 변환. 
 
 2. 조건문 `{?expression} ... {/}` 
 
