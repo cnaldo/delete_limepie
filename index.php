@@ -20,9 +20,9 @@ try {
 	pr($e);
 }
 
-/*
+
 //exit();
 pr(readable_size(memory_get_peak_usage()));
 pr(readable_size(memory_get_usage()));
 pr(get_included_files());
-*/
+

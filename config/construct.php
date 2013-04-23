@@ -32,7 +32,8 @@ ini_set('session.cookie_domain', $_SERVER['HTTP_HOST']);
 
 define('LANG', 'ko');
 
-/* db class setting */
+/* db class setting 
 class master	extends \lime\db\driver {}
 class slave		extends \lime\db\driver {}
 class master2	extends \lime\db\driver {}
+*/
