@@ -11,7 +11,7 @@ class apps_globals extends \lime\controller
 	protected final function display($print = false) {
 		$tpl = new \lime\tpl;
 		$tpl->tpl_path		= APPS_FOLDER;
-		$tpl->skin			= $this->getQuery('module').'/view/';
+		$tpl->skin			= $this->getParameter('module').'/view/';
 		$tpl->prefilter		= 'adjustPath & css,js,gif,jpg,jpeg,png,swf|fixHtml';
 		$tpl->environment	= ENVIRONMENT;
 

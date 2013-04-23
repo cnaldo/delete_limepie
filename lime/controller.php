@@ -13,7 +13,7 @@ class Controller
 		$this->framework	= \lime\framework::getInstance();
 		$this->route		= $this->framework->route;
 		$this->segment		= $this->route->getSegment();
-		$this->query		= $this->route->getQuery();
+		$this->parameter	= $this->route->getParameter();
 	}
 	protected function getRoute() {
 		return $this->route;
@@ -24,8 +24,8 @@ class Controller
 	protected function getSegment($key = false, $def = '') {
 		return $this->route->getSegment($key);
 	}
-	protected function getQuery($key = false, $end = false) {
-		return $this->route->getQuery($key, $end);
+	protected function getParameter($key = false, $end = false) {
+		return $this->route->getParameter($key, $end);
 	}
 	protected function getUri() {
 		return $this->route->pathinfo();

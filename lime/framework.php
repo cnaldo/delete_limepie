@@ -19,13 +19,13 @@ class framework
 		$this->route = $route;
 	}
 	private function action($args = null) {
-		$module			= str_replace('/',DS,$this->route->query['module']);
-		$controller		= str_replace('/',DS,$this->route->query['controller']);
-		$action			= str_replace('/',DS,$this->route->query['action']);
-		$basedir		= str_replace('/',DS,$this->route->query['basedir']);
-		$prefix			= str_replace('/',DS,$this->route->query['prefix']);
+		$module			= str_replace('/',DS,$this->route->getParameter('module'));
+		$controller		= str_replace('/',DS,$this->route->getParameter('controller'));
+		$action			= str_replace('/',DS,$this->route->getParameter('action'));
+		$basedir		= str_replace('/',DS,$this->route->getParameter('basedir'));
+		$prefix			= str_replace('/',DS,$this->route->getParameter('prefix'));
 	 	$className		= ($module ? $module.'_':'').str_replace(DS,'_',$controller);
-		$errorClassName	= $this->route->defaultError;
+		$errorClassName	= $this->route->getErrorController();
 		$moduleBasedir	= HTDOCS_FOLDER.($basedir ? $basedir.DS : '')
 						.($prefix ? str_replace('_',DS,$prefix).DS:'')
 						.($module ? str_replace('_',DS,$module).DS : '');;

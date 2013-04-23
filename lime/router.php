@@ -1,30 +1,39 @@
 <?php
 
 namespace lime;
+/*
+	$router = new \lime\nrouter(array(
+		//'(?P<module>admin|order)(?:/(?P<parameter>.*))?' => array(), 
+		'(?P<module>[^/]+)?(?:/(?P<year>[^/]+))?(?:/(?P<parameter>.*))?' => array(
+			//'basedir' => 'test'
+		)
+	));
+	$router->setError('apps_error');
+*/
+class router {
+	private $pathinfo;
+	private $route		= array();
+	private	$segment	= array();
+	private	$parameter	= array();
+	private $basedir	= 'apps';
+	private $prefix		= '';
+	private $module		= 'welcome';
+	private $controller	= 'run';
+	private $action		= 'index';
+	private $error		= '\lime\error';
+	private $matchRoute;
+	private $systemVariables = array('basedir','module','action','controller','prefix'); // paramter로 받을수 없는 변수
+	public	$prev;
+	public	$is_error	= false;
 
-class router
-{
-	public $defaultModule		= 'main';
-	public $defaultController	= 'index';
-	public $defaultAction		= 'index';
-	public $defaultBasedir		= '';
-	public $defaultPrefix		= '';
-	public $defaultError		= 'lime\error';
-	public $query; //named
-	public $segment; // number
-	public $route;
-	public $matchRoute;
-	public $prev;
-	public $is_error = false;
-	private $pathinfo; 
 	public function __construct($array = array()){
 		$this->pathinfo	= $this->_getPathinfo();
-		$this->segment		= explode('/',$this->pathinfo);
+		$this->segment	= explode('/',$this->pathinfo);
 		$this->route	= $array;
 	}
 	public function setException($message = '', $method = 'error', $args = array()) {
 		$this->is_error = true;
-		$class			= $this->defaultError;
+		$class			= $this->getError();
 		$tmpObj			= new $class;
 		$_args			= array(
 			'method'	=> $method,
@@ -37,41 +46,54 @@ class router
 			throw new \Exception('error '.$method.' method_does_not_exist');
 		}
 	}
-	public function setBasedir($forderName) {
-		$this->defaultBasedir	= $forderName;
+	public function addRoute($route = array()) {
+		$this->route = $route;	
 	}
-	public function setError($controllerName) {
-		$this->defaultError	= $controllerName;
+	public function setBaseDir($basedir) {
+		$this->basedir = $basedir;
 	}
-	public function getErrorController() {
-		return $this->defaultError;
+	public function getBaseDir() {
+		return $this->basedir;
 	}
-	public function setPrefix($forderName) {
-		$this->defaultPrefix	= $forderName;
+	public function setPrefix($prefix) {
+		$this->prefix = $prefix;
 	}
-	/* default module */
-	public function setModule($moduleName) {
-		$this->defaultModule	= $moduleName;
+	public function getPrefix() {
+		return $this->prefix;
+	}
+	public function setModule($module) {
+		$this->module = $module;
 	}
 	public function getModule() {
-		return $this->defaultModule;
+		return $this->module;
 	}
-	/* default action */
-	public function setAction($actionName) {
-		$this->defaultAction	= $actionName;
+	public function setController($controller) {
+		$this->controller = $controller;
 	}
-	/* default controller */
-	public function setController($controllName) {
-		$this->defaultController= $controllName;
+	public function getController() {
+		return $this->controller;
 	}
-	/* get matched param */
-	public function getQuery($key=false) {
-		if(false === $key) {
-			return $this->query;
+	public function setAction($action) {
+		$this->action = $action;
+	}
+	public function getAction() {
+		return $this->action;
+	}
+	public function setError($error) {
+		$this->error = $error;
+	}
+	public function getErrorController() {
+		return $this->error;
+	}
+	private function _getPathinfo(){
+		return (true === isset($_SERVER['PATH_INFO']) ? trim($_SERVER['PATH_INFO'],'/') : '');
+	}
+	public function getParameter($key=null) {
+		if(true === is_null($key)) {
+			return $this->parameter;
 		}
-		return true === isset($this->query[$key]) ? $this->query[$key] : null;
+		return true === isset($this->parameter[$key]) ? $this->parameter[$key] : null;
 	}
-	/* get raw param */
 	public function getSegment($key=false, $end = false) {
 		if(false === $key) {
 			return $this->segment;
@@ -81,162 +103,39 @@ class router
 		}
 		return true === isset($this->segment[$key]) ? $this->segment[$key] : null;
 	}
-	public function pathinfo() {
-		return $this->pathinfo;
+	private function setDefaultParameter() {
+		$ret = array();
+		foreach($this->systemVariables as $key) {
+			$ret[$key] = $this->{'get'.$key}();
+		}
+		return $ret;
 	}
-	public function route(){
-		// 파라메터가 없으면 default로 모듈,컨트롤러,엑션 순으로 매칭
-		if(false === isset($this->route['null'])) {
-			$this->route['null'] = array(
-				':module/:controller/:action',
-				$this->defaultModule."/".$this->defaultController."/".$this->defaultAction
+	public function route() {
+		if(false == is_array($this->route) || 0 == count($this->route)) {
+			$this->route = array(
+				'(?P<parameter>.*)' => array()
 			);
-		}	
-		if(false === isset($this->route['(.*)'])) {
-			$this->route["(.*)"] = array(
-				':module/:controller/:action/*', 
-				$this->defaultModule."/".$this->defaultController."/".$this->defaultAction."/$1"
-			);
-			// 전체 매칭이 없으면 default로 모듈,컨트롤러,엑션 순으로 매칭
 		}
-		return $this->_parseUri($this->_getFixUri($this->route));	
-	}
-	private function _getPathinfo(){
-		return (true === isset($_SERVER['PATH_INFO']) ? trim($_SERVER['PATH_INFO'],'/') : '');
-	}
-	private function _getAnchor(){
-		return pathinfo($_SERVER['SCRIPT_FILENAME'],PATHINFO_BASENAME);
-	}
-	private function _getFixUri(array $array) {
-		$strUri = '';
-		$this->matchRoute = false;
+		foreach($this->route as $rule => $default) {
+			if(preg_match('#^'.$rule.'$#', $this->pathinfo, $m1)) {
+				$parameter = $this->setDefaultParameter();
+				$this->parameter = $default + $parameter; // $default 우선
 
-		foreach($array as $key => $value) {		
-			 if(isset($value[1]) && is_array($value[1])) {// (2011-02-23) 2번째 파라메터가 배열일경우 replacement는 null이고 기본변수에 배열 할당 
-				$matching		= $value[0];
-				$replacement	= null;
-				$default		= @$value[1];
-				$basedir		= @$value[2];
-			} else {
-				$matching		= $value[0];
-				$replacement	= @$value[1];
-				$default		= @$value[2];
-				$basedir		= @$value[3];
-			}
-
-			if($key == '(.*)') {
-				$replacement	= '$1'; // matching의 대상이 전체(.*) 일때는 replacement도 $1 한개
-			} else if(false === isset($replacement) || true == is_null($replacement) ) {
-				// replacement 갯수, 2개일경우 3개의 파라미터이며 추가파라미터 까지 4개의 치환자가 나와야 하므로 
-				$_replacement_count = substr_count($matching, '/') + 2; 					
-				$_replacement = array();
-				for($i=1;$i<=$_replacement_count;$i++){
-					$_replacement[] = '$'.$i; // replacement를 정규식의 치환자로 $1..$2...등으로 표시
-				}
-				$replacement= implode('/',$_replacement);
-			}
-			$target = "#^".$key."$#";
-			if($key == 'forward') { // forward일때 검사조건을 쬐끔 줄여봄
-				$this->matchRoute = array(
-					$target,
-					array(
-						'matching'		=> $matching,
-						'replacement'	=> $replacement,
-						'default'		=> isset($default) ? $default : null,
-						'basedir'		=> isset($bacedir) ? $bacedir : null,
-					)
-				);
-				return $replacement;
-			} else if(preg_match($target, $this->pathinfo)) {
-				$this->matchRoute = array(
-					$target,
-					array(
-						'matching'		=> $matching,
-						'replacement'	=> $replacement,
-						'default'		=> isset($default) ? $default : null,
-						'basedir'		=> isset($bacedir) ? $bacedir : null,
-					)
-				);
-				$strUri = preg_replace($target, $replacement, $this->pathinfo);//.'/'
-				break;
-			}
-		}
-
-		return (true === empty($strUri) ? $this->pathinfo : $strUri);
-	}
-	private function _split_raw($str) {
-		if($str == '/') return array();
-		return explode('/', $str);
-	}
-	private function _parseUri($uri='') { 
-
-		$getseg		= true === isset($_GET) ? $_GET : array();
-		$_vars		= array();
-		$_seg		= rtrim($uri,'/');
-		$_arrSeg	= $this->_split_raw($_seg.'/');
-
-		$matching	= str_replace('*','',$this->matchRoute[1]['matching']);
-		$arrMap		= trim($matching) != '' ? explode('/',rtrim($matching, '/')) : array();
-		$slice		= (
-						false === $this->matchRoute 
-						|| (false === isset($this->matchRoute[1]['matching']) || true === empty($this->matchRoute[1]['matching']))
-						? 3 : count($arrMap)
-					);
-		$_path		= array_splice($_arrSeg, $slice);
-		if(true === isset($this->matchRoute[1]['basedir'])) {
-			$_vars['basedir']		= $this->matchRoute[1]['basedir'];
-		}
-		if(false === isset($this->matchRoute[1]['matching']) || true === empty($this->matchRoute[1]['matching'])) { //매칭되는것이 없을때
-			$_vars['module']	= $_arrSeg[0];
-			$_vars['controller']= $_arrSeg[1];
-			$_vars['action']	= $_arrSeg[2];
-		} else {
-			foreach($arrMap as $key => $value ) {
-				if(true === isset($arrMap[$key]) && $arrMap[$key]) {
-					$_vars[substr($arrMap[$key], 1)] = (true === isset($_arrSeg[$key]) ? $_arrSeg[$key] : '');
-				}
-			}
-		}
-
-		/*1. url 매칭*/
-		for ($i=0, $max = count($_path) + 1; $i<=$max-2; $i+=2) { 
-			if(true === isset($_path[$i]) && $_path[$i]) {
-				//if(true === isset($_path[$i+1])) {
-					$_vars[$_path[$i]] = (true === isset($_path[$i+1]) ? $_path[$i+1] : '');
-				//}
-			}
-		} 
-
-		/*2. 값이 없을 경우 default 파라메터 세팅*/
-		if(true === isset($this->matchRoute[1]['default'])) {
-			$tmp = $this->matchRoute[1]['default'];
-			if(true === is_array($tmp)) {
-				foreach($tmp as $key => $value) {
-					$_k = ($key[0] == ':' ? substr($key, 1) : $key);
-					if(isset($value[0]) && $value[0] == '!') { // important
-						$_vars[$_k] = substr($value, 1);
-					} else if(true === isset($_vars[$_k]) && $_vars[$_k]) {
-					} else {
-						$_vars[$_k] = $value;
+				$_path	= isset($m1['parameter']) && trim($m1['parameter']) != '' ? explode('/',rtrim($m1['parameter'], '/')) : array();
+				for($i=0,$max=count($_path)+1;$i<=$max-2;$i+=2) { 
+					if(true === isset($_path[$i]) && $_path[$i] && false == in_array($_path[$i], $this->systemVariables)) {
+						$this->parameter[$_path[$i]] = (true === isset($_path[$i+1]) ? $_path[$i+1] : '');
 					}
 				}
-			}
+				foreach($m1 as $key => $value) {
+					if(false === is_numeric($key)) {
+						$this->parameter[$key] = $value;
+					}
+				}
+				$this->matchRoute = array($rule => $default);
+				break;
+			}	
 		}
-		$__seg = $_vars + $getseg;	//앞에것 우선 == array_merge($getseg, $_vars) 뒤에것 우선
-				
-		$_sys_vars = array();		/* module/controller/action 없을경우 디폴트 셋팅 set이 되어있고 값이 없다면 빈값으로 인정 */
-		$_sys_vars['module']		= false === isset($__seg['module'])		|| true === empty($__seg['module']) 
-									? $this->defaultModule	: $__seg['module'];
-		$_sys_vars['controller']	= false === isset($__seg['controller']) || true === empty($__seg['controller']) 
-									? $this->defaultController	: $__seg['controller'];
-		$_sys_vars['action']		= false === isset($__seg['action'])		|| true === empty($__seg['action']) 
-									? $this->defaultAction	: $__seg['action'];
-		$_sys_vars['basedir']		= false === isset($__seg['basedir'])	|| true === empty($__seg['basedir']) 
-									? $this->defaultBasedir	: $__seg['basedir'];
-		$_sys_vars['prefix']		= false === isset($__seg['prefix'])		|| true === empty($__seg['prefix']) 
-									? $this->defaultPrefix	: $__seg['prefix'];	
-
-
-		return $this->query = $__seg + $_sys_vars + (array)$this->matchRoute[1]['default'];
-	} 
+		return $this->parameter;
+	}
 }
