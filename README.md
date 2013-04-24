@@ -199,7 +199,7 @@ $router = new \lime\router(array(
 
 ### Case #5
 
-httpd://example.com/blog/339/field/date/sort/desc 는 아래의 라우터에 매칭됩니다.
+http://example.com/blog/339/field/date/sort/desc 는 아래의 라우터에 매칭됩니다.
 규칙의 마지막에 `(?:/(?P<parameter>.*))?`를 넣어야 "field/date/sort/desc"를 재처리할 대상으로 판단하여 
 매개변수 `$field = "date"; $sort = "desc";`를 얻을수 있습니다. 
 
