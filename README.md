@@ -54,6 +54,7 @@ Named subpattern 기반의 정규표현식을 사용합니다.
         ```php
         <?php
     
+        $str = "the red king";
         preg_match("#the ((?:red|white) (king|queen))#", $str, $match);
         print_r($match);
         ```
@@ -73,6 +74,7 @@ Named subpattern 기반의 정규표현식을 사용합니다.
         ```php
         <?php
     
+        $str = "the red king";
         preg_match("#the (?:(red|white) (king|queen))#", $str, $match);
         print_r($match);
         ```
