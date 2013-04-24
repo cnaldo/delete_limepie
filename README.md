@@ -357,6 +357,48 @@ route rule 문법은 정규식만 허용합니다. named subpattern을 활용하
             [1] => smith6
         )
 
+- Single-character quantifiers
+
+     `(서브패턴)?`과 같이 `서브패턴`이 끝난뒤의 `?`는 `(서브패턴){0,1}` 과 동일합니다. 
+     전체를 기준으로 `서브패턴`에 매칭되는 문자열이 없어도 참입니다. 
+
+
+    - 정규표현식의 마지막에 `?`가 없으므로 모듈과 파라메터는 모두 필수입니다.
+
+	```php
+        <?php
+
+        $str = "board";
+        preg_match("#(?P<module>[^/]+)(?:/(?P<parameter>.*))#", $str, $match);
+        print_r($match);
+        ```
+
+            <!-- output -->
+        
+            Array
+            (
+            )
+
+    - 정규표현식의 마지막에 `?`가 있으므로 모듈은 필수, 두번째 패턴의 경우 값이 있으면 파라메터에 매칭되고, 없어도필수는 아닙니다.
+        ```php
+        <?php
+
+        $str = "board";
+        preg_match("#(?P<module>[^/]+)(?:/(?P<parameter>.*))?#", $str, $match);
+        print_r($match);
+        ```
+
+            <!-- output -->
+
+            Array
+            (
+                [0] => board
+                [module] => board
+                [1] => board
+            )
+
+
+
 
 CONTROLLER
 ----------
