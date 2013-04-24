@@ -335,10 +335,10 @@ route rule 문법은 정규식만 허용합니다. named subpattern을 활용하
             )
 
 
-- 키명 지정(named subpattern)
+- NAMED SUBPATTERN
     
      `(?P<키명>패턴)` 와 같이 여는 괄호뒤에 `?P`와 함께 `<키명>`을 지정하면, 
-    `패턴`에 매치되는 문자열이 지정한 키명에 저장됩니다. 
+    `패턴`에 매치되는 문자열이 지정한 `키명`의 값으로 저장됩니다. 
 
     ```php
     <?php
@@ -353,7 +353,7 @@ route rule 문법은 정규식만 허용합니다. named subpattern을 활용하
         Array
         (
             [0] => smith6
-            [name] => smith6 // [a-z0-9]+ 패턴에 해당하는 문자열을 name 이란 키에 저장
+            [name] => smith6 // [a-z0-9]+ 패턴에 해당하는 문자열을 name이란 키명의 값으로 저장
             [1] => smith6
         )
 
