@@ -23,94 +23,6 @@ URI을 Controller 클래스의 메서드에 연결 시키는 역할을 합니다
 Named subpattern 기반의 정규표현식을 사용합니다.
 
 
-정규표현식 서브패턴
--------------------
-
-
-- 괄호로 구분되고, 중첩도 가능합니다. 캡쳐된 값은 여는 괄호 기준, 왼쪽에서 오른쪽 순서로 1부터 순차적으로 지정된, 배열의 키에 저장됩니다.
-
-    ```php
-    <?php
-    
-    $str = "the red king";
-    preg_match("#the ((red|white) (king|queen))#", $str, $match);
-    print_r($match);
-    ```
-
-        <!-- output -->
-
-        Array
-        (
-            [0] => the red king // 캡쳐된 전체 문자열
-            [1] => red king     // 바깥 괄호 전체
-            [2] => red          // red와 white를 감싸고 있는 괄호
-            [3] => king         // king과 queen을 감싸고 있는 괄호
-        )
-
-- 값을 캡쳐할 필요는 없지만, 그룹화를 위해 서브 패턴을 사용할수 있습니다.
-
-    - red와 white를 감싸고 있는 괄호의, 여는 괄호뒤에 `?:`가 지정되면, 그 패턴은 캡쳐되지 않습니다.
-
-        ```php
-        <?php
-    
-        $str = "the red king";
-        preg_match("#the ((?:red|white) (king|queen))#", $str, $match);
-        print_r($match);
-        ```
-
-            <!-- output -->
-
-            Array
-            (
-                 [0] => the red king // 캡쳐된 전체 문자열
-                 [1] => red king     // 바깥 괄호 전체
-                 [2] => king         // king 과 queen을 감싸고 있는 괄호
-            )
-
-
-    - 가장 바깥의 여는 괄호뒤에 `?:`가 지정되면 안쪽 괄호의 패턴만 캡쳐됩니다.
-
-        ```php
-        <?php
-    
-        $str = "the red king";
-        preg_match("#the (?:(red|white) (king|queen))#", $str, $match);
-        print_r($match);
-        ```
-
-            <!-- output -->
-
-            Array
-            (
-                [0] => the red king // 캡쳐된 전체 문자열
-                [1] => red          // red와 white를 감싸고 있는 괄호
-                [2] => king         // king과 queen을 감싸고 있는 괄호
-            )
-
-
-- 키명 지정(named subpattern)
-    
-     `(?P<키명>패턴)` 와 같이 여는 괄호뒤에 `?P`와 함께 `<키명>`을 지정하면, 
-    `패턴`에 매치되는 문자열이 지정한 키명에 저장됩니다. 
-
-    ```php
-    <?php
-
-    $str = "smith6";
-    preg_match("#(?P<name>[a-z0-9]+)#", $str, $match); 
-    print_r($match);
-    ```
-
-        <!-- output -->
-        
-        Array
-        (
-            [0] => smith6
-            [name] => smith6 // [a-z0-9]+ 패턴에 해당하는 문자열을 name 이란 키에 저장
-            [1] => smith6
-        )
-
 ROUTE RULE
 ----------
 
@@ -354,6 +266,95 @@ $router = new \lime\router(array(
     
 
 
+
+
+정규표현식 서브패턴
+-------------------
+
+
+- 괄호로 구분되고, 중첩도 가능합니다. 캡쳐된 값은 여는 괄호 기준, 왼쪽에서 오른쪽 순서로 1부터 순차적으로 지정된, 배열의 키에 저장됩니다.
+
+    ```php
+    <?php
+    
+    $str = "the red king";
+    preg_match("#the ((red|white) (king|queen))#", $str, $match);
+    print_r($match);
+    ```
+
+        <!-- output -->
+
+        Array
+        (
+            [0] => the red king // 캡쳐된 전체 문자열
+            [1] => red king     // 바깥 괄호 전체
+            [2] => red          // red와 white를 감싸고 있는 괄호
+            [3] => king         // king과 queen을 감싸고 있는 괄호
+        )
+
+- 값을 캡쳐할 필요는 없지만, 그룹화를 위해 서브 패턴을 사용할수 있습니다.
+
+    - red와 white를 감싸고 있는 괄호의, 여는 괄호뒤에 `?:`가 지정되면, 그 패턴은 캡쳐되지 않습니다.
+
+        ```php
+        <?php
+    
+        $str = "the red king";
+        preg_match("#the ((?:red|white) (king|queen))#", $str, $match);
+        print_r($match);
+        ```
+
+            <!-- output -->
+
+            Array
+            (
+                 [0] => the red king // 캡쳐된 전체 문자열
+                 [1] => red king     // 바깥 괄호 전체
+                 [2] => king         // king 과 queen을 감싸고 있는 괄호
+            )
+
+
+    - 가장 바깥의 여는 괄호뒤에 `?:`가 지정되면 안쪽 괄호의 패턴만 캡쳐됩니다.
+
+        ```php
+        <?php
+    
+        $str = "the red king";
+        preg_match("#the (?:(red|white) (king|queen))#", $str, $match);
+        print_r($match);
+        ```
+
+            <!-- output -->
+
+            Array
+            (
+                [0] => the red king // 캡쳐된 전체 문자열
+                [1] => red          // red와 white를 감싸고 있는 괄호
+                [2] => king         // king과 queen을 감싸고 있는 괄호
+            )
+
+
+- 키명 지정(named subpattern)
+    
+     `(?P<키명>패턴)` 와 같이 여는 괄호뒤에 `?P`와 함께 `<키명>`을 지정하면, 
+    `패턴`에 매치되는 문자열이 지정한 키명에 저장됩니다. 
+
+    ```php
+    <?php
+
+    $str = "smith6";
+    preg_match("#(?P<name>[a-z0-9]+)#", $str, $match); 
+    print_r($match);
+    ```
+
+        <!-- output -->
+        
+        Array
+        (
+            [0] => smith6
+            [name] => smith6 // [a-z0-9]+ 패턴에 해당하는 문자열을 name 이란 키에 저장
+            [1] => smith6
+        )
 
 
 CONTROLLER
