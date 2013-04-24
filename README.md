@@ -365,7 +365,7 @@ route rule 문법은 정규식만 허용합니다. named subpattern을 활용하
 
     - 정규표현식의 마지막에 `?`가 없으므로 모듈과 파라메터는 모두 필수입니다.
 
-	```php
+        ```php
         <?php
 
         $str = "board";
