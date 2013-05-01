@@ -5,7 +5,7 @@ require_once("lime/bootstrap.php");
 try {
 	$router = new \lime\router(array(
 		//'(?P<module>admin|order)(?:/(?P<parameter>.*))?' => array(), 
-		'(?P<module>[^/]+)?(?:/(?P<year>[^/]+))?(?:/(?P<parameter>.*))?' => array(
+		'(?P<module>[^/]+)?(?:/(?P<action>[^/]+))?(?:/(?P<parameter>.*))?' => array(
 			//'basedir' => 'test'
 		)
 	));

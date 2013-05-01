@@ -7,7 +7,7 @@ class SDOException extends \PDOException {
     public function __construct(\PDOException $e) {
 //pr($e->getTrace());
 		foreach($e->getTrace() as $key => $value) {
-			if((isset($value['class']) && $value['class'] == 'database')
+			if((isset($value['class']) && $value['class'] == 'lime\\database')
 			 || (isset($value['class']) && $value['class'] == 'PDOStatement')
 			 || (isset($value['function']) && $value['function'] == 'call_user_func_array')
 			 || (isset($value['function']) && $value['function'] == '__callStatic')) {
@@ -33,16 +33,16 @@ class db
 	}
 
 	static public function getInstance($conn = 'master') {
-		$conn = CHECK_REAL.'\\'.$conn;
+		$conn = ENVIRONMENT.'\\'.$conn;
 
 		if(self::$driver == null) {
 			/*file load*/
 			if ((self::$driver = @parse_ini_file(CONFIG_FOLDER.'ini.db.php', true)) == false) {
-				throw new SDBException('Missing INI file or Parse Error : ' . CONFIG_FOLDER.'ini.db.php');
+				throw new SDOException('Missing INI file or Parse Error : ' . CONFIG_FOLDER.'ini.db.php');
 			}
 		}
 		if(false == isset(self::$driver[$conn])) {
-			throw new SDBException($conn.' db driver not found');
+			throw new SDOException($conn.' db driver not found');
 		}
 		$config		= self::$driver[$conn];
 		
@@ -67,8 +67,6 @@ class db
 			}
 			return true === isset(self::$instance[$config_md5]) ? self::$instance[$config_md5] : false;
 		} catch (\PDOException $e) {
-			//header("HTTP/1.0 403 Forbidden");
-			//exit();
 			throw new SDOException($e);
 		}
 	}	
@@ -102,7 +100,9 @@ abstract class database extends \pdo
 {	
 	public static $is_transaction = false;
 	public static $debug = true;
+	public static $commit_count = 0; // 모델단에서 트랜젝션이 일어났을때 카운트로 commit시점을 조절한다.
 	public $scheme = null;
+
 	public function __construct($dsn, $username = '', $password = '', $driver_options = array()) {
 		parent::__construct($dsn, $username, $password, $driver_options);
 	}
@@ -118,6 +118,7 @@ abstract class database extends \pdo
 		return $r;
 	}
 	public function setlog($statement, $bind_parameters, $start) {
+		return true;
 		putdblog(self::getlog($statement, $bind_parameters, $start));	
 	}
 	public function get_explain($query, $bind_parameters) {
@@ -177,7 +178,6 @@ abstract class database extends \pdo
 			}
 			return $result;
 		} catch (\PDOException $e) {
-
 			self::rollback();
 			if( self::$debug == true) {
 				throw new SDOException($e);
@@ -195,7 +195,6 @@ abstract class database extends \pdo
 				self::setlog($statement, $bind_parameters, $start);
 			}
 			return $result;
-
 		} catch (\PDOException $e) {
 			self::rollback();
 			if( self::$debug == true) {
@@ -211,7 +210,6 @@ abstract class database extends \pdo
 		if(self::$debug == true) {
 			self::setlog($statement, $bind_parameters, $start);
 		}
-
 		if(is_array($result)) {
 			foreach($result as $key => $value) {
 				return $value;
@@ -242,8 +240,10 @@ abstract class database extends \pdo
 		return self::begin();
 	}
 	public function begin() { 
-		if(true === self::$is_transaction) return; 
-		
+		self::$commit_count++; 
+		if(true === self::$is_transaction) {
+			return; 
+		}
 		if($return = parent::beginTransaction()) {
 			self::$is_transaction = true; 
 			return $return;
@@ -258,9 +258,10 @@ abstract class database extends \pdo
 		}
 	} 
 	public function commit() { 
+		self::$commit_count--;
 		if(false === self::$is_transaction) return; 
 
-		if($return = parent::commit()) {
+		if(self::$commit_count == 0 && $return = parent::commit()) {
 			self::$is_transaction = false; 
 			return $return;
 		}

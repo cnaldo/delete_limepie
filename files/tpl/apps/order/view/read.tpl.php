@@ -5,6 +5,9 @@
 <script src="<?php echo BASE_PATH;?>apps/main/view/js/globals.js?ver=33"></script>
 <script src="<?php echo BASE_PATH;?>apps/main/view/js/validate.js"></script>
 
+<script src="<?php echo BASE_PATH;?>vendor/js/source/jstree.rc2/jquery.jstree.js"></script>
+
+
 <a href='<?php echo BASE_PATH;?>build/'>aaa</a> 
 <a href='<?php echo BASE_PATH;?>buildx/'>bbb</a>
 
@@ -44,7 +47,100 @@ function check(form) {
 	return false;
 }
 </script>
+<script>
+jQuery(function($) {
+	$('#demo3').jstree({
 
+		"plugins" : [ "themes", "html_data", "ui", "crrm",  "dnd","types", "rules", "contextmenu" ],
+		"themes" : {
+			"theme" : "default",
+			"dots" : true,
+			"icons" : true
+		},
+		"types" : {
+			"max_depth" : -2,
+			"max_children" : -2,
+			"valid_children" : [ "root" ],
+			"rules" : {
+				"folder" : {
+					"start_drag" : true,
+					"move_node" : true,
+					"valid_children" : [ "folder" ]
+				},
+				"root" : {
+					"valid_children" : [ "folder" ],
+					"start_drag" : false,
+					"move_node" : false,
+					"delete_node" : false,
+					"remove" : false						
+				}
+			}
+		},
+	});
+	$('#demo3').bind("create_node.jstree",  function (e, data) {
+		//var parent_seq = $(data.rslt.obj).parent().attr("id").replace("node_","");				
+		//var f = $.jstree._focused();
+		//f.deselect_node();
+		data.rslt.obj.attr("id", "new_" + rand_str());
+		data.rslt.obj.find('a').click();
+
+	}).bind("select_node.jstree", function (event, data) {
+		jQuery('.jstree-rename-input').blur();
+		// `data.rslt.obj` is the jquery extended node that was clicked
+		// alert(data.node.attr("id"));
+	}).bind("move_node.jstree",	function (e, data) {
+		//$(data.rslt.o).children().click();
+		console.log('move');
+	}).bind("dblclick.jstree",	function(e, data) {
+		var f = $.jstree._focused();
+		jQuery('#editable_input').blur();
+		f.deselect_node(e.currentTarget);
+		f.rename();
+	}).bind("loaded.jstree",	function(event, data) {
+		var f = $.jstree._focused();
+		f.open_all();
+	})
+
+	;
+
+});
+
+function get_menu() {
+	var _menu = [];
+
+	$('#demo3').find('li').each(function() {
+		var l = _menu.length
+
+		var obj = $(this).children("a:eq(0)").clone();
+		obj.children(".jstree-icon").remove();
+		var element_name	= obj.text();
+		var element_id		= this.id ? this.id.replace("tree_","") : 'new';
+
+		_menu.push(
+			  'tree['+element_id+'][element_id]='	+ element_id
+			+'&tree['+element_id+'][parent_id]='	+ $(this).parent().parent().attr("id").replace("tree_","")
+			+'&tree['+element_id+'][position_num]='	+ $(this).index()
+			+'&tree['+element_id+'][element_name]='	+ element_name
+		);
+	});
+
+	$.ajax({
+		async	: false,	
+		type	: 'POST',
+		url		: './order/tree',
+		data	: _menu.join("&"), 
+		success	: function (r) {
+			
+		},
+		dataType:'json'
+	});		
+
+}
+</script>
+<div id="demo3" class="demo">
+	<?php echo $tree;?>
+</div>
+<input type='button' onclick='get_menu()'>
 
 <form class="cmxform" id="signupForm" method="post" action="" onsubmit='return check(this)'>
 	<fieldset>
@@ -76,7 +172,7 @@ function check(form) {
 			<input id="agree" name="agree" type="checkbox" />
 
 		</p>
-		<fieldse
+		
 		<p>
 			<input class="submit" type="submit" value="Submit"/>
 		</p>

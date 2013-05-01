@@ -28,8 +28,12 @@ define('DOMAIN', (strtolower(getenv('HTTPS')) == 'on' ? 'https' : 'http') . '://
  * __autoload를 사용하여 className의 _를 /로 변경하여 자동으로 인클루드
  */
 function __autoload($className) {
-	if( true != include str_replace(array('_','\\'),DS,(strtolower($className))).'.php') {
-		throw new \Exception('include error : '.$className);	
+	if( true != @include str_replace(array('_','\\'),DS,(strtolower($className))).'.php') {
+		//if(true == in_array($className, array( 'lime\\master', 'lime\\slave', 'lime\\master'))) {
+		//	throw new \Exception('master 앞에 \\를 붙이세요');			
+		//} else {
+		//	throw new \Exception('include error입니다. 혹시 namespace scope를 위반한것이 아닌지 확인하세요. : '.$className);	
+		//}
 	}
 }
 
@@ -107,7 +111,7 @@ function __t($module, $msgid, $arr = null) {
 
 require_once("lime/function.php");
 require_once("lime/clearstatcache.php");
-//require_once("lime/language.php");
+require_once("lime/language.php");
 
 //if(file_exists("config/construct.php")) {
 	require_once("config/construct.php");
